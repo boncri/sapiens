@@ -10,12 +10,31 @@ import SpriteKit
 import AVFoundation
 
 class GameScene: SKScene, AVAudioPlayerDelegate {
-    private var wow = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("wow", ofType: "wav")!)
+    private let wow = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("wow", ofType: "wav")!)
+    private let cheers = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("cheer", ofType: "caf")!)
+    
     private var player = AVAudioPlayer()
+    private var playerWin = AVAudioPlayer()
+    
+    private let play = SKSpriteNode(imageNamed: "play")
+
     private var playGround = PlayGround()
+    
+    var score = 0
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        initGraphics()
+        
+        player = AVAudioPlayer(data: wow, error: nil)
+        player.prepareToPlay()
+        
+        playerWin = AVAudioPlayer(data: cheers, error: nil)
+        playerWin.prepareToPlay()
+    }
+    
+    private func initGraphics()
+    {
         let bg = SKSpriteNode(imageNamed: "back_img")
         bg.position = CGPoint(x: self.frame.width/2, y:self.frame.height/2)
         bg.zPosition = -100
@@ -34,14 +53,12 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         
         layout.placeAll(playGround.couples, scene: self)
         
-        player = AVAudioPlayer(data: wow, error: nil)
-        player.prepareToPlay()
+        play.position = CGPoint(x: 60, y: self.frame.height - 60)
+        self.addChild(play)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
-        
-        println(touches.count)
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
@@ -52,13 +69,27 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 let couple = playGround.touched(touched!)
                 if((couple?) == nil)
                 {
+                    if(touched! == play)
+                    {
+                        self.removeAllChildren()
+                        playGround.couples.removeAll(keepCapacity: true)
+                        self.initGraphics()
+                        self.score = 0
+                    }
                     return
                 }
                 
                 if(couple!.allTouched())
                 {
                     drawLine(couple!)
-                    player.play()
+                    score++
+                    if(score == playGround.couples.count)
+                    {
+                        playerWin.play()
+                    } else {
+                        player.play()
+                    }
+                
                     delay(2) {
                         couple!.stop()
                     }
