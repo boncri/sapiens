@@ -28,6 +28,10 @@ class Couple
         self.second = second
     }
     
+    func isTouched(node:SKSpriteNode) -> Bool {
+        return (node == first && firstTouched) || (node == second && secondTouched)
+    }
+    
     func touched(node:SKSpriteNode) -> SKSpriteNode? {
         if(node == first && !firstTouched)
         {
@@ -52,14 +56,36 @@ class Couple
         node.runAction(SKAction.repeatActionForever(action))
     }
     
+    func untouched(node:SKSpriteNode) -> SKSpriteNode? {
+        if(node == first && firstTouched)
+        {
+            firstTouched = false
+            untouch(first)
+            return first
+        }
+        if(node == second && secondTouched)
+        {
+            secondTouched = false
+            untouch(second)
+            return second
+        }
+        return nil
+    }
+    
     func stop() {
+        untouch(first)
+        untouch(second)
+    }
+    
+    func reset() {
+        stop()
         firstTouched=false
         secondTouched=false
-        
-        first.removeAllActions()
-        second.removeAllActions()
-        first.setScale(1)
-        second.setScale(1)
+    }
+    
+    private func untouch(node:SKSpriteNode) {
+        node.removeAllActions()
+        node.setScale(1)
     }
     
     func allTouched() -> Bool {

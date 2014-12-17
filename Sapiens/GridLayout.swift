@@ -13,7 +13,7 @@ class GridLayout
 {
     private var size:CGSize
     
-    private let columns = 2
+    private let columns = 4
     
     init(size: CGSize)
     {
@@ -24,38 +24,38 @@ class GridLayout
     {
         let count = couples.count * 2
         
-        let rows = count / 2
+        let rows = count / columns
         
         let width = Int(size.width) / columns
         let height = Int(size.height) / rows
         
         var occupied = [Bool](count: rows * columns, repeatedValue: false)
-
+        
+        var cells : UInt32 = UInt32(rows * columns)
         var r1 : Int
         var r2 : Int
-        
         for couple in couples
         {
             
             do {
-                r1 = Int(arc4random() % UInt32(rows))
+                r1 = Int(arc4random_uniform(cells))
             }while(occupied[r1] == true)
             occupied[r1] = true
             
             do {
-                r2 = Int(arc4random() % UInt32(rows))
-            }while(occupied[r2 + rows] == true)
-            occupied[r2 + rows] = true
+                r2 = Int(arc4random_uniform(cells))
+            }while(occupied[r2] == true)
+            occupied[r2] = true
             
-            var x0 = width / 2
-            var x1 = width / 2 + width
-            var y0 = height / 2 + height * r1
-            var y1 = height / 2 + height * r2
+            var x0 = width / 2 + (r1 % columns) * width
+            var y0 = height / 2 + (r1 / columns) * height
+            var x1 = width / 2 + (r2 % columns) * width
+            var y1 = height / 2 + (r2 / columns) * height
             
             println("(\(x0),\(y0)) - (\(x1),\(y1))")
             
-            couple.first.position = CGPoint(x: x0, y: height/2 + height * r1)
-            couple.second.position = CGPoint(x: x1, y: height/2 + height * r2)
+            couple.first.position = CGPoint(x: x0, y: y0)
+            couple.second.position = CGPoint(x: x1, y: y1)
             
             scene.addChild(couple.first)
             scene.addChild(couple.second)

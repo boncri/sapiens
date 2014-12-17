@@ -43,7 +43,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         
         let layout = GridLayout(size: self.frame.size)
         
-        for(var i=1; i<=3; i++)
+        for(var i=1; i<=6; i++)
         {
             let couple = Couple(firstImageName: "c\(i)f", secondImageName: "c\(i)s")
             //let couple = Couple(firstImageName: "first", secondImageName: "second")
@@ -56,6 +56,19 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         play.position = CGPoint(x: 60, y: self.frame.height - 60)
         self.addChild(play)
     }
+    
+//    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+//        for touch: AnyObject in touches {
+//            let location = touch.locationInNode(self)
+//            
+//            let touched : SKSpriteNode? = self.nodeAtPoint(location) as? SKSpriteNode
+//            
+//            if((touched?) != nil)
+//            {
+//             let couple = playGround.untouched(touched!)
+//            }
+//        }
+//    }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
@@ -81,7 +94,9 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 
                 if(couple!.allTouched())
                 {
-                    drawLine(couple!)
+//                    drawLine(couple!)
+                    couple!.first.alpha = 0.25
+                    couple!.second.alpha = 0.25
                     score++
                     if(score == playGround.couples.count)
                     {
@@ -95,18 +110,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                     }
                 }
             }
-            
-//            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-//            
-//            sprite.xScale = 0.5
-//            sprite.yScale = 0.5
-//            sprite.position = location
-//            
-//            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-//            
-//            sprite.runAction(SKAction.repeatActionForever(action))
-//            
-//            self.addChild(sprite)            
         }
     }
     
@@ -114,17 +117,35 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     {
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, couple.first.position.x, couple.first.position.y)
-        CGPathAddLineToPoint(path, nil, couple.second.position.x, couple.second.position.y)
         
+        let cp = RandomPoint(couple.first.position, corner2: couple.second.position)
+        CGPathAddQuadCurveToPoint(path, nil,  cp.x,cp.y, couple.second.position.x, couple.second.position.y)
         
-        
-        let line = SKShapeNode(path: CGPathCreateCopyByDashingPath(path, nil, 0, [10, 10], 2))
-        line.strokeColor = UIColor.yellowColor()
+        let line = SKShapeNode(path: CGPathCreateCopyByDashingPath(path, nil, 0, [8, 8], 2))
+
+        line.strokeColor = UIColor.yellowColor().colorWithAlphaComponent(0.25)
         line.lineWidth = 8
-        
+
         line.zPosition = -1
-        
         self.addChild(line)
+    }
+    
+    private func MidPoint(p1: CGPoint, p2: CGPoint) -> CGPoint {
+        return CGPoint(x: (p1.x + p2.x)/2, y: (p1.y + p2.y)/2)
+    }
+    private func RandomPoint() -> CGPoint {
+        return CGPoint(x: Double(arc4random_uniform(UInt32(self.frame.width))), y: Double(arc4random_uniform(UInt32(self.frame.height))))
+    }
+    private func RandomPoint(corner1: CGPoint, corner2: CGPoint) -> CGPoint {
+        let xFrom = UInt32(min(corner1.x, corner2.x))
+        let xTo = UInt32(max(corner1.x, corner2.x))
+        let x = Double(arc4random_uniform(xTo - xFrom) + xFrom)
+
+        let yFrom = UInt32(min(corner1.y, corner2.y))
+        let yTo = UInt32(max(corner1.y, corner2.y))
+        let y = Double(arc4random_uniform(yTo - yFrom) + yFrom)
+
+        return CGPoint(x: x, y: y)
     }
    
     func delay(delay:Double, closure:()->()) {

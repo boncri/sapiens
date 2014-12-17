@@ -18,7 +18,7 @@ class PlayGround
         couples.append(couple)
     }
     
-    func touched(node:SKSpriteNode) -> Couple? {
+    private func touchCouple(node:SKSpriteNode) -> Couple? {
         var selected:Couple?
         
         for couple in couples {
@@ -28,6 +28,25 @@ class PlayGround
                 break
             }
         }
+        
+        return selected?
+    }
+    private func untouchCouple(node:SKSpriteNode) -> Couple? {
+        var selected:Couple?
+        
+        for couple in couples {
+            if(couple.untouched(node) != nil)
+            {
+                selected = couple
+                break
+            }
+        }
+        
+        return selected?
+    }
+    
+    func touched(node:SKSpriteNode) -> Couple? {
+        var selected:Couple? = touchCouple(node)
         
         if((selected?)==nil) {
             return nil
@@ -43,11 +62,24 @@ class PlayGround
             } else {
                 for couple in couples
                 {
-                    couple.stop()
+                    couple.reset()
                 }
             }
         }
         
         return nil
-    }    
+    }
+    
+    func untouched(node:SKSpriteNode) -> Couple? {
+        var selected:Couple? = untouchCouple(node)
+        
+        if((selected?)==nil) {
+            return nil
+        }
+        
+        numTouches--
+        selected!.reset()
+        
+        return selected
+    }
 }
