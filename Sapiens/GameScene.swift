@@ -17,14 +17,54 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var playerWin = AVAudioPlayer()
     
     private let play = SKSpriteNode(imageNamed: "play")
+    private let back = SKSpriteNode(imageNamed: "back")
+    
+    private let layerGame = SKNode()
 
     private var playGround = PlayGround()
     
     var score = 0
     
+    private let level : Int;
+    init(size: CGSize, level: Int) {
+        self.level = level
+
+        super.init(size: size)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        
+        let layerBackground = SKNode()
+        layerBackground.zPosition = -100
+        layerBackground.position = CGPoint(x: 0,y: 0)
+
+                let bg = SKSpriteNode(imageNamed: "l\(level)bg")
+                bg.position = CGPoint(x: self.frame.width/2, y:self.frame.height/2)
+                bg.zPosition = -100
+                bg.alpha = 0.5
+                layerBackground.addChild(bg)
+
+        self.addChild(layerBackground)
+        
+        let layerControls = SKNode()
+        layerControls.zPosition = 10
+        layerControls.position = CGPoint(x:0,y:0)
+        
+        play.position = CGPoint(x: 60, y: self.frame.height - 60)
+        layerControls.addChild(play)
+
+        back.position = CGPoint(x: self.frame.width - 60, y: self.frame.height - 60)
+        layerControls.addChild(back)
+
+        self.addChild(layerControls)
+        
         initGraphics()
+        self.addChild(layerGame)
         
         player = AVAudioPlayer(data: wow, error: nil)
         player.prepareToPlay()
@@ -35,26 +75,17 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     private func initGraphics()
     {
-        let bg = SKSpriteNode(imageNamed: "back_img")
-        bg.position = CGPoint(x: self.frame.width/2, y:self.frame.height/2)
-        bg.zPosition = -100
-        bg.alpha = 0.5
-        self.addChild(bg)
-        
-        let layout = GridLayout(size: self.frame.size)
+        let layout = GridLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60))
         
         for(var i=1; i<=6; i++)
         {
-            let couple = Couple(firstImageName: "c\(i)f", secondImageName: "c\(i)s")
+            let couple = Couple(firstImageName: "l\(level)c\(i)f", secondImageName: "l\(level)c\(i)s")
             //let couple = Couple(firstImageName: "first", secondImageName: "second")
             
             playGround.add(couple)
         }
         
-        layout.placeAll(playGround.couples, scene: self)
-        
-        play.position = CGPoint(x: 60, y: self.frame.height - 60)
-        self.addChild(play)
+        layout.placeAll(playGround.couples, scene: layerGame)
     }
     
 //    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
@@ -84,17 +115,20 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 {
                     if(touched! == play)
                     {
-                        self.removeAllChildren()
+                        layerGame.removeAllChildren()
                         playGround.couples.removeAll(keepCapacity: true)
-                        self.initGraphics()
                         self.score = 0
+                        self.initGraphics()
+                    } else if (touched! == back)
+                    {
+                        let main = MainMenuScene(size: self.frame.size)
+                        self.view?.presentScene(main, transition: SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 1))
                     }
                     return
                 }
                 
                 if(couple!.allTouched())
                 {
-//                    drawLine(couple!)
                     couple!.first.alpha = 0.25
                     couple!.second.alpha = 0.25
                     score++
@@ -113,41 +147,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         }
     }
     
-    func drawLine(couple:Couple)
-    {
-        let path = CGPathCreateMutable()
-        CGPathMoveToPoint(path, nil, couple.first.position.x, couple.first.position.y)
-        
-        let cp = RandomPoint(couple.first.position, corner2: couple.second.position)
-        CGPathAddQuadCurveToPoint(path, nil,  cp.x,cp.y, couple.second.position.x, couple.second.position.y)
-        
-        let line = SKShapeNode(path: CGPathCreateCopyByDashingPath(path, nil, 0, [8, 8], 2))
-
-        line.strokeColor = UIColor.yellowColor().colorWithAlphaComponent(0.25)
-        line.lineWidth = 8
-
-        line.zPosition = -1
-        self.addChild(line)
-    }
-    
-    private func MidPoint(p1: CGPoint, p2: CGPoint) -> CGPoint {
-        return CGPoint(x: (p1.x + p2.x)/2, y: (p1.y + p2.y)/2)
-    }
-    private func RandomPoint() -> CGPoint {
-        return CGPoint(x: Double(arc4random_uniform(UInt32(self.frame.width))), y: Double(arc4random_uniform(UInt32(self.frame.height))))
-    }
-    private func RandomPoint(corner1: CGPoint, corner2: CGPoint) -> CGPoint {
-        let xFrom = UInt32(min(corner1.x, corner2.x))
-        let xTo = UInt32(max(corner1.x, corner2.x))
-        let x = Double(arc4random_uniform(xTo - xFrom) + xFrom)
-
-        let yFrom = UInt32(min(corner1.y, corner2.y))
-        let yTo = UInt32(max(corner1.y, corner2.y))
-        let y = Double(arc4random_uniform(yTo - yFrom) + yFrom)
-
-        return CGPoint(x: x, y: y)
-    }
-   
     func delay(delay:Double, closure:()->()) {
         dispatch_after(
             dispatch_time(

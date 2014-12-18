@@ -12,15 +12,17 @@ import SpriteKit
 class GridLayout
 {
     private var size:CGSize
+    private var topLeft:CGPoint
     
     private let columns = 4
     
-    init(size: CGSize)
+    init(size: CGSize, topLeft: CGPoint = CGPoint.zeroPoint)
     {
         self.size = size
+        self.topLeft = topLeft
     }
     
-    func placeAll(couples: [Couple], scene: SKScene)
+    func placeAll(couples: [Couple], scene: SKNode)
     {
         let count = couples.count * 2
         
@@ -36,7 +38,6 @@ class GridLayout
         var r2 : Int
         for couple in couples
         {
-            
             do {
                 r1 = Int(arc4random_uniform(cells))
             }while(occupied[r1] == true)

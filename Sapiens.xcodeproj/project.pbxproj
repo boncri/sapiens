@@ -21,6 +21,7 @@
 		F45E48AB1A3F9988006B13E0 /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E48AA1A3F9988006B13E0 /* Shuffle.swift */; };
 		F45E48AD1A4069F9006B13E0 /* cheer.caf in Resources */ = {isa = PBXBuildFile; fileRef = F45E48AC1A4069A8006B13E0 /* cheer.caf */; };
 		F45E48AF1A40FCDE006B13E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45E48AE1A40FCDE006B13E0 /* Images.xcassets */; };
+		F45E48BB1A438C90006B13E0 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E48BA1A438C90006B13E0 /* MainMenuScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		F45E48AA1A3F9988006B13E0 /* Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shuffle.swift; sourceTree = "<group>"; };
 		F45E48AC1A4069A8006B13E0 /* cheer.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cheer.caf; sourceTree = "<group>"; };
 		F45E48AE1A40FCDE006B13E0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F45E48BA1A438C90006B13E0 /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				F45E48A41A3E444A006B13E0 /* PlayGround.swift */,
 				F45E48A81A3F968F006B13E0 /* GridLayout.swift */,
 				F45E48AA1A3F9988006B13E0 /* Shuffle.swift */,
+				F45E48BA1A438C90006B13E0 /* MainMenuScene.swift */,
 			);
 			path = Sapiens;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			files = (
 				F45E48831A3DA735006B13E0 /* GameScene.swift in Sources */,
 				F45E48851A3DA735006B13E0 /* GameViewController.swift in Sources */,
+				F45E48BB1A438C90006B13E0 /* MainMenuScene.swift in Sources */,
 				F45E487F1A3DA735006B13E0 /* AppDelegate.swift in Sources */,
 				F45E48A91A3F968F006B13E0 /* GridLayout.swift in Sources */,
 				F45E48A51A3E444A006B13E0 /* PlayGround.swift in Sources */,
