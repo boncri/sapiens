@@ -9,20 +9,9 @@
 import Foundation
 import SpriteKit
 
-class GridLayout
+class GridLayout : ColumnLayout
 {
-    private var size:CGSize
-    private var topLeft:CGPoint
-    
-    private let columns = 4
-    
-    init(size: CGSize, topLeft: CGPoint = CGPoint.zeroPoint)
-    {
-        self.size = size
-        self.topLeft = topLeft
-    }
-    
-    func placeAll(couples: [Couple], scene: SKNode)
+    override func placeAll(couples: [Couple], scene: SKNode)
     {
         let count = couples.count * 2
         

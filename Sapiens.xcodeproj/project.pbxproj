@@ -22,6 +22,10 @@
 		F45E48AD1A4069F9006B13E0 /* cheer.caf in Resources */ = {isa = PBXBuildFile; fileRef = F45E48AC1A4069A8006B13E0 /* cheer.caf */; };
 		F45E48AF1A40FCDE006B13E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45E48AE1A40FCDE006B13E0 /* Images.xcassets */; };
 		F45E48BB1A438C90006B13E0 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E48BA1A438C90006B13E0 /* MainMenuScene.swift */; };
+		F45E48BF1A44D0AB006B13E0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F45E48BE1A44D0AB006B13E0 /* README.md */; };
+		F45E48C11A44D266006B13E0 /* TopBottomLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E48C01A44D266006B13E0 /* TopBottomLayout.swift */; };
+		F45E48C31A44D279006B13E0 /* BaseLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E48C21A44D279006B13E0 /* BaseLayout.swift */; };
+		F45E48C51A44D470006B13E0 /* ColumnLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E48C41A44D470006B13E0 /* ColumnLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,10 @@
 		F45E48AC1A4069A8006B13E0 /* cheer.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = cheer.caf; sourceTree = "<group>"; };
 		F45E48AE1A40FCDE006B13E0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F45E48BA1A438C90006B13E0 /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
+		F45E48BE1A44D0AB006B13E0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F45E48C01A44D266006B13E0 /* TopBottomLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopBottomLayout.swift; sourceTree = "<group>"; };
+		F45E48C21A44D279006B13E0 /* BaseLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLayout.swift; sourceTree = "<group>"; };
+		F45E48C41A44D470006B13E0 /* ColumnLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +85,7 @@
 		F45E48701A3DA735006B13E0 = {
 			isa = PBXGroup;
 			children = (
+				F45E48BE1A44D0AB006B13E0 /* README.md */,
 				F45E487B1A3DA735006B13E0 /* Sapiens */,
 				F45E48951A3DA735006B13E0 /* SapiensTests */,
 				F45E487A1A3DA735006B13E0 /* Products */,
@@ -110,6 +119,9 @@
 				F45E48A81A3F968F006B13E0 /* GridLayout.swift */,
 				F45E48AA1A3F9988006B13E0 /* Shuffle.swift */,
 				F45E48BA1A438C90006B13E0 /* MainMenuScene.swift */,
+				F45E48C01A44D266006B13E0 /* TopBottomLayout.swift */,
+				F45E48C21A44D279006B13E0 /* BaseLayout.swift */,
+				F45E48C41A44D470006B13E0 /* ColumnLayout.swift */,
 			);
 			path = Sapiens;
 			sourceTree = "<group>";
@@ -226,6 +238,7 @@
 				F45E48AF1A40FCDE006B13E0 /* Images.xcassets in Resources */,
 				F45E48811A3DA735006B13E0 /* GameScene.sks in Resources */,
 				F45E48881A3DA735006B13E0 /* Main.storyboard in Resources */,
+				F45E48BF1A44D0AB006B13E0 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,9 +256,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F45E48C31A44D279006B13E0 /* BaseLayout.swift in Sources */,
 				F45E48831A3DA735006B13E0 /* GameScene.swift in Sources */,
 				F45E48851A3DA735006B13E0 /* GameViewController.swift in Sources */,
+				F45E48C51A44D470006B13E0 /* ColumnLayout.swift in Sources */,
 				F45E48BB1A438C90006B13E0 /* MainMenuScene.swift in Sources */,
+				F45E48C11A44D266006B13E0 /* TopBottomLayout.swift in Sources */,
 				F45E487F1A3DA735006B13E0 /* AppDelegate.swift in Sources */,
 				F45E48A91A3F968F006B13E0 /* GridLayout.swift in Sources */,
 				F45E48A51A3E444A006B13E0 /* PlayGround.swift in Sources */,

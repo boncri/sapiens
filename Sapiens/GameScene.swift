@@ -38,6 +38,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
 
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
+        backgroundColor = UIColor.whiteColor()
         
         let layerBackground = SKNode()
         layerBackground.zPosition = -100
@@ -46,7 +47,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 let bg = SKSpriteNode(imageNamed: "l\(level)bg")
                 bg.position = CGPoint(x: self.frame.width/2, y:self.frame.height/2)
                 bg.zPosition = -100
-                bg.alpha = 0.5
                 layerBackground.addChild(bg)
 
         self.addChild(layerBackground)
@@ -75,9 +75,11 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     private func initGraphics()
     {
-        let layout = GridLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60))
+        let layout : BaseLayout = level==1 ? GridLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60)) : TopbottomRowLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60))
         
-        for(var i=1; i<=6; i++)
+        let num = level==1 ? 6 : 4
+        
+        for(var i=1; i<=num; i++)
         {
             let couple = Couple(firstImageName: "l\(level)c\(i)f", secondImageName: "l\(level)c\(i)s")
             //let couple = Couple(firstImageName: "first", secondImageName: "second")

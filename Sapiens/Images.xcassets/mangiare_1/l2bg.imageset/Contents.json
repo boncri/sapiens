@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "level2-bg.png"
+      "filename" : "bg_sole.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "level2-bg@2x.png"
+      "filename" : "bg_sole@2x.png"
     },
     {
       "idiom" : "universal",
