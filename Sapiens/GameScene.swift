@@ -16,7 +16,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var player = AVAudioPlayer()
     private var playerWin = AVAudioPlayer()
     
-    private let play = SKSpriteNode(imageNamed: "play")
+    private let play = SKSpriteNode(imageNamed: "replay")
     private let back = SKSpriteNode(imageNamed: "back")
     
     private let layerGame = SKNode()
@@ -75,9 +75,9 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     private func initGraphics()
     {
-        let layout : BaseLayout = level==1 ? GridLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60)) : TopbottomRowLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60))
+        let layout : BaseLayout = (level==1 || level==4) ? GridLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60)) : TopbottomRowLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60))
         
-        let num = level==1 ? 6 : 4
+        let num = (level==1 || level==4) ? 6 : 4
         
         for(var i=1; i<=num; i++)
         {

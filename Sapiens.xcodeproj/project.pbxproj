@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F41706A81A458D9100F7B734 /* LevelChooseNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41706A71A458D9100F7B734 /* LevelChooseNode.swift */; };
 		F45E487F1A3DA735006B13E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E487E1A3DA735006B13E0 /* AppDelegate.swift */; };
 		F45E48811A3DA735006B13E0 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = F45E48801A3DA735006B13E0 /* GameScene.sks */; };
 		F45E48831A3DA735006B13E0 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E48821A3DA735006B13E0 /* GameScene.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F41706A71A458D9100F7B734 /* LevelChooseNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelChooseNode.swift; sourceTree = "<group>"; };
 		F45E48791A3DA735006B13E0 /* Sapiens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sapiens.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45E487D1A3DA735006B13E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F45E487E1A3DA735006B13E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +84,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F41706A91A458E2C00F7B734 /* layout */ = {
+			isa = PBXGroup;
+			children = (
+				F45E48C01A44D266006B13E0 /* TopBottomLayout.swift */,
+				F45E48C21A44D279006B13E0 /* BaseLayout.swift */,
+				F45E48C41A44D470006B13E0 /* ColumnLayout.swift */,
+			);
+			name = layout;
+			sourceTree = "<group>";
+		};
 		F45E48701A3DA735006B13E0 = {
 			isa = PBXGroup;
 			children = (
@@ -119,9 +131,8 @@
 				F45E48A81A3F968F006B13E0 /* GridLayout.swift */,
 				F45E48AA1A3F9988006B13E0 /* Shuffle.swift */,
 				F45E48BA1A438C90006B13E0 /* MainMenuScene.swift */,
-				F45E48C01A44D266006B13E0 /* TopBottomLayout.swift */,
-				F45E48C21A44D279006B13E0 /* BaseLayout.swift */,
-				F45E48C41A44D470006B13E0 /* ColumnLayout.swift */,
+				F41706A91A458E2C00F7B734 /* layout */,
+				F41706A71A458D9100F7B734 /* LevelChooseNode.swift */,
 			);
 			path = Sapiens;
 			sourceTree = "<group>";
@@ -263,6 +274,7 @@
 				F45E48BB1A438C90006B13E0 /* MainMenuScene.swift in Sources */,
 				F45E48C11A44D266006B13E0 /* TopBottomLayout.swift in Sources */,
 				F45E487F1A3DA735006B13E0 /* AppDelegate.swift in Sources */,
+				F41706A81A458D9100F7B734 /* LevelChooseNode.swift in Sources */,
 				F45E48A91A3F968F006B13E0 /* GridLayout.swift in Sources */,
 				F45E48A51A3E444A006B13E0 /* PlayGround.swift in Sources */,
 				F45E48A31A3E1010006B13E0 /* Couple.swift in Sources */,
@@ -464,6 +476,7 @@
 				F45E489E1A3DA735006B13E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F45E489F1A3DA735006B13E0 /* Build configuration list for PBXNativeTarget "SapiensTests" */ = {
 			isa = XCConfigurationList;
@@ -472,6 +485,7 @@
 				F45E48A11A3DA735006B13E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

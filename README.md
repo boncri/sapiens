@@ -4,7 +4,6 @@
     - ombre
     - colori
     - forme
-    - cosa mangia?
     - dove vive?
     - quanti sono?
     - mani e numeri
@@ -16,6 +15,8 @@
 
 - Trascinare un oggetto verso il suo corrispondente
     - porta l'animale verso la sua casa
+    - cosa mangia?
+    - oggetti di scuola verso lo zainetto
 
 
 **LAYOUT**

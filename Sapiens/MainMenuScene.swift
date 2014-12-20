@@ -11,29 +11,42 @@ import SpriteKit
 
 class MainMenuScene : SKScene {
     
-    private let ombre = SKSpriteNode(imageNamed: "mm_ombre")
-    private let mangiare = SKSpriteNode(imageNamed: "mm_mangiare")
-
+    private let ombre = LevelChooseNode(imageNamed: "mm_ombre", level: 1)
+    private let mangiare = LevelChooseNode(imageNamed: "mm_mangiare", level: 2)
+    private let mangiare2 = LevelChooseNode(imageNamed: "mm_mangiare2", level: 3)
+    private let colori = LevelChooseNode(imageNamed: "mm_colori", level: 4)
+//    private let ombre = SKSpriteNode(imageNamed: "mm_ombre")
+//    private let mangiare = SKSpriteNode(imageNamed: "mm_mangiare")
+//    private let mangiare2 = SKSpriteNode(imageNamed: "mm_mangiare2")
+//    private let colore = SKSpriteNode(imageNamed: "mm_colore")
+    
     override func didMoveToView(view: SKView) {
-        ombre.position = CGPoint(x: self.frame.width / 2, y: (2 * self.frame.height) / 3)
-        mangiare.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 3)
+        let width = self.frame.width / 2
+        let height = self.frame.height / 2
+        
+        ombre.position = CGPoint(x: width / 2, y: 3 * height / 2)
+        mangiare.position = CGPoint(x: 3 * width / 2, y: 3 * height / 2)
+        mangiare2.position = CGPoint(x: width / 2, y: height / 2)
+        colori.position = CGPoint(x: 3 * width / 2, y: height / 2)
         
         self.addChild(ombre)
         self.addChild(mangiare)
+        self.addChild(mangiare2)
+        self.addChild(colori)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch in touches {
             let location = touch.locationInNode(self)
             
-            let touched : SKSpriteNode? = self.nodeAtPoint(location) as? SKSpriteNode
+            let touched : LevelChooseNode? = self.nodeAtPoint(location) as? LevelChooseNode
             
             if(touched? == nil) {
                 return
             }
             
-            let level = touched == ombre ? 1 : 2
-            
+            var level = touched!.level
+                        
             let game = GameScene(size: self.frame.size, level: level)
             
             let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 1)
