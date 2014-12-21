@@ -16,7 +16,10 @@
 - Trascinare un oggetto verso il suo corrispondente
     - porta l'animale verso la sua casa
     - cosa mangia?
+
+- Trascinare un oggetto verso un obiettivo
     - oggetti di scuola verso lo zainetto
+    - frutta verso il vasetto
 
 
 **LAYOUT**

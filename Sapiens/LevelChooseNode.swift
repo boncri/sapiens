@@ -9,16 +9,19 @@
 import Foundation
 import SpriteKit
 
-class LevelChooseNode : SKSpriteNode {
+class LevelChooseNode : SKNode {
     
+    let sprite:SKSpriteNode
     let level:Int
     
     init(imageNamed: String, level: Int) {
         self.level = level
+        self.sprite = SKSpriteNode(imageNamed: imageNamed)
         
-        let texture = SKTexture(imageNamed:  imageNamed)
-        
-        super.init(texture: texture, color: UIColor(), size: texture.size())
+        super.init()
+
+        self.addChild(sprite)
+        sprite.zPosition = -1
     }
 
     required init?(coder aDecoder: NSCoder) {

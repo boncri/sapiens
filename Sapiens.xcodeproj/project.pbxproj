@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		F41706A81A458D9100F7B734 /* LevelChooseNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41706A71A458D9100F7B734 /* LevelChooseNode.swift */; };
+		F4199EBD1A4640A500632CDD /* GameBirdsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4199EBC1A4640A500632CDD /* GameBirdsScene.swift */; };
+		F4199EBF1A4641C500632CDD /* BirdsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4199EBE1A4641C500632CDD /* BirdsLayout.swift */; };
+		F4199EC11A46487E00632CDD /* levels.plist in Resources */ = {isa = PBXBuildFile; fileRef = F4199EC01A46487E00632CDD /* levels.plist */; };
 		F45E487F1A3DA735006B13E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E487E1A3DA735006B13E0 /* AppDelegate.swift */; };
 		F45E48811A3DA735006B13E0 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = F45E48801A3DA735006B13E0 /* GameScene.sks */; };
 		F45E48831A3DA735006B13E0 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E48821A3DA735006B13E0 /* GameScene.swift */; };
@@ -41,6 +44,9 @@
 
 /* Begin PBXFileReference section */
 		F41706A71A458D9100F7B734 /* LevelChooseNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelChooseNode.swift; sourceTree = "<group>"; };
+		F4199EBC1A4640A500632CDD /* GameBirdsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBirdsScene.swift; sourceTree = "<group>"; };
+		F4199EBE1A4641C500632CDD /* BirdsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdsLayout.swift; sourceTree = "<group>"; };
+		F4199EC01A46487E00632CDD /* levels.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = levels.plist; sourceTree = "<group>"; };
 		F45E48791A3DA735006B13E0 /* Sapiens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sapiens.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45E487D1A3DA735006B13E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F45E487E1A3DA735006B13E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,9 +93,11 @@
 		F41706A91A458E2C00F7B734 /* layout */ = {
 			isa = PBXGroup;
 			children = (
+				F45E48A81A3F968F006B13E0 /* GridLayout.swift */,
 				F45E48C01A44D266006B13E0 /* TopBottomLayout.swift */,
 				F45E48C21A44D279006B13E0 /* BaseLayout.swift */,
 				F45E48C41A44D470006B13E0 /* ColumnLayout.swift */,
+				F4199EBE1A4641C500632CDD /* BirdsLayout.swift */,
 			);
 			name = layout;
 			sourceTree = "<group>";
@@ -128,11 +136,12 @@
 				F45E487C1A3DA735006B13E0 /* Supporting Files */,
 				F45E48A21A3E1010006B13E0 /* Couple.swift */,
 				F45E48A41A3E444A006B13E0 /* PlayGround.swift */,
-				F45E48A81A3F968F006B13E0 /* GridLayout.swift */,
 				F45E48AA1A3F9988006B13E0 /* Shuffle.swift */,
 				F45E48BA1A438C90006B13E0 /* MainMenuScene.swift */,
 				F41706A91A458E2C00F7B734 /* layout */,
 				F41706A71A458D9100F7B734 /* LevelChooseNode.swift */,
+				F4199EBC1A4640A500632CDD /* GameBirdsScene.swift */,
+				F4199EC01A46487E00632CDD /* levels.plist */,
 			);
 			path = Sapiens;
 			sourceTree = "<group>";
@@ -244,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F45E48AD1A4069F9006B13E0 /* cheer.caf in Resources */,
+				F4199EC11A46487E00632CDD /* levels.plist in Resources */,
 				F45E488D1A3DA735006B13E0 /* LaunchScreen.xib in Resources */,
 				F45E48A71A3E48B8006B13E0 /* wow.wav in Resources */,
 				F45E48AF1A40FCDE006B13E0 /* Images.xcassets in Resources */,
@@ -269,9 +279,11 @@
 			files = (
 				F45E48C31A44D279006B13E0 /* BaseLayout.swift in Sources */,
 				F45E48831A3DA735006B13E0 /* GameScene.swift in Sources */,
+				F4199EBD1A4640A500632CDD /* GameBirdsScene.swift in Sources */,
 				F45E48851A3DA735006B13E0 /* GameViewController.swift in Sources */,
 				F45E48C51A44D470006B13E0 /* ColumnLayout.swift in Sources */,
 				F45E48BB1A438C90006B13E0 /* MainMenuScene.swift in Sources */,
+				F4199EBF1A4641C500632CDD /* BirdsLayout.swift in Sources */,
 				F45E48C11A44D266006B13E0 /* TopBottomLayout.swift in Sources */,
 				F45E487F1A3DA735006B13E0 /* AppDelegate.swift in Sources */,
 				F41706A81A458D9100F7B734 /* LevelChooseNode.swift in Sources */,

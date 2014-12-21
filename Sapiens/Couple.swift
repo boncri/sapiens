@@ -17,6 +17,9 @@ class Couple
     var firstTouched:Bool = false
     var secondTouched:Bool = false
     
+    var firstOriginalPosition : CGPoint?
+    var secondOriginalPosition : CGPoint?
+        
     init(firstImageName: String, secondImageName: String) {
         self.first = SKSpriteNode(imageNamed: firstImageName)
         self.second = SKSpriteNode(imageNamed: secondImageName)
@@ -32,26 +35,44 @@ class Couple
         return (node == first && firstTouched) || (node == second && secondTouched)
     }
     
-    func touched(node:SKSpriteNode) -> SKSpriteNode? {
+    func touched(node:SKSpriteNode, onlyFirst: Bool = false) -> SKSpriteNode? {
         if(node == first && !firstTouched)
         {
-            firstTouched = true
             touch(first)
             return first
         }
-        if(node == second && !secondTouched)
+        if(node == second && !secondTouched && !onlyFirst)
         {
-            secondTouched = true
             touch(second)
             return second
         }
         return nil
     }
     
-    private func touch(node: SKSpriteNode) {
-        let action1 = SKAction.scaleTo(1.5, duration: 0.5)
-        let action2 = SKAction.scaleTo(1, duration: 0.5)
-        let action = SKAction.sequence([action1, action2])
+    func touch(node: SKSpriteNode) {
+        if(node == first) {
+            if(firstTouched) {
+                return
+            }
+            firstTouched = true
+            firstOriginalPosition = first.position
+        }
+        if(node == second) {
+            if(secondTouched) {
+                return
+            }
+            secondTouched = true
+            secondOriginalPosition = second.position
+        }
+        
+//        let action1 = SKAction.scaleTo(1.0, duration: 0.2)
+//        let action2 = SKAction.scaleTo(1.1, duration: 0.2)
+//        let action = SKAction.sequence([action1, action2])
+        
+        let action1 = SKAction.rotateByAngle(0.1, duration: 0.2)
+        let action2 = SKAction.rotateByAngle(-0.2, duration: 0.4)
+        let action3 = SKAction.rotateByAngle(0.1, duration: 0.2)
+        let action = SKAction.sequence([action1, action2, action3])
         
         node.runAction(SKAction.repeatActionForever(action))
     }
@@ -84,8 +105,21 @@ class Couple
     }
     
     private func untouch(node:SKSpriteNode) {
-        node.removeAllActions()
-        node.setScale(1)
+        var location : CGPoint?
+        if(node == first) {
+            location = firstOriginalPosition
+            firstOriginalPosition = nil
+        }
+        if(node == second) {
+            location = secondOriginalPosition
+            secondOriginalPosition = nil
+        }
+        
+        if let loc = location {
+            node.removeAllActions()
+            
+            node.runAction(SKAction.group([SKAction.moveTo(loc, duration: 0.2), SKAction.rotateToAngle(0, duration: 0.2), SKAction.scaleTo(1, duration: 0.2)]))
+        }
     }
     
     func allTouched() -> Bool {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>levels</key>
+	<dict>
+		<key>6</key>
+		<dict>
+			<key>count</key>
+			<integer>6</integer>
+			<key>layout</key>
+			<string>GridLayout</string>
+			<key>mode</key>
+			<string>click</string>
+		</dict>
+		<key>1</key>
+		<dict>
+			<key>count</key>
+			<integer>6</integer>
+			<key>layout</key>
+			<string>GridLayout</string>
+			<key>mode</key>
+			<string>click</string>
+		</dict>
+		<key>2</key>
+		<dict>
+			<key>count</key>
+			<integer>4</integer>
+			<key>layout</key>
+			<string>TopBottomRowLayout</string>
+			<key>mode</key>
+			<string>click</string>
+		</dict>
+		<key>3</key>
+		<dict>
+			<key>count</key>
+			<integer>4</integer>
+			<key>layout</key>
+			<string>TopBottomRowLayout</string>
+			<key>mode</key>
+			<string>click</string>
+		</dict>
+		<key>4</key>
+		<dict>
+			<key>count</key>
+			<integer>6</integer>
+			<key>layout</key>
+			<string>GridLayout</string>
+			<key>mode</key>
+			<string>click</string>
+		</dict>
+		<key>5</key>
+		<dict>
+			<key>count</key>
+			<integer>4</integer>
+			<key>layout</key>
+			<string>BirdsLayout</string>
+			<key>mode</key>
+			<string>drag</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

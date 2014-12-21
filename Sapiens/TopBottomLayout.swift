@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class TopbottomRowLayout : BaseLayout {
+class TopBottomRowLayout : BaseLayout {
     private let rows:Int = 2
     
     override func placeAll(couples: [Couple], scene: SKNode) {

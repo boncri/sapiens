@@ -10,29 +10,28 @@ import Foundation
 import SpriteKit
 
 class MainMenuScene : SKScene {
-    
-    private let ombre = LevelChooseNode(imageNamed: "mm_ombre", level: 1)
-    private let mangiare = LevelChooseNode(imageNamed: "mm_mangiare", level: 2)
-    private let mangiare2 = LevelChooseNode(imageNamed: "mm_mangiare2", level: 3)
-    private let colori = LevelChooseNode(imageNamed: "mm_colori", level: 4)
-//    private let ombre = SKSpriteNode(imageNamed: "mm_ombre")
-//    private let mangiare = SKSpriteNode(imageNamed: "mm_mangiare")
-//    private let mangiare2 = SKSpriteNode(imageNamed: "mm_mangiare2")
-//    private let colore = SKSpriteNode(imageNamed: "mm_colore")
-    
-    override func didMoveToView(view: SKView) {
-        let width = self.frame.width / 2
-        let height = self.frame.height / 2
+
+    override func didMoveToView(view: SKView) {        
+        let width = self.frame.width / 4
+        let height = self.frame.height / 4
         
-        ombre.position = CGPoint(x: width / 2, y: 3 * height / 2)
-        mangiare.position = CGPoint(x: 3 * width / 2, y: 3 * height / 2)
-        mangiare2.position = CGPoint(x: width / 2, y: height / 2)
-        colori.position = CGPoint(x: 3 * width / 2, y: height / 2)
+        let levels = GameScene.LevelInfo.getLevels()
         
-        self.addChild(ombre)
-        self.addChild(mangiare)
-        self.addChild(mangiare2)
-        self.addChild(colori)
+        for l in levels.allKeys {
+            if let n = (l as String).toInt() {
+                let x = width / 2 + CGFloat((n - 1) % 4) * width
+                let y = self.frame.height - (height / 2 + CGFloat((((n - 1) - (n - 1) % 4) / 4)) * height)
+                
+                let button = LevelChooseNode(imageNamed: "level\(n)", level: n)
+                button.position = CGPoint(x: x, y: y)
+                button.xScale = 0
+                button.yScale = 0
+                
+                self.addChild(button)
+                
+                button.runAction(SKAction.sequence([SKAction.waitForDuration(0.2 * Double(n)), SKAction.scaleTo(1, duration: 0.25)]))
+            }
+        }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -49,7 +48,7 @@ class MainMenuScene : SKScene {
                         
             let game = GameScene(size: self.frame.size, level: level)
             
-            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Left, duration: 1)
+            let transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1)
             
             self.view?.presentScene(game, transition: transition)
         }
