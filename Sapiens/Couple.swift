@@ -11,59 +11,90 @@ import SpriteKit
 
 class Couple
 {
-    var first : SKSpriteNode
-    var second : SKSpriteNode
-    
-    var firstTouched:Bool = false
-    var secondTouched:Bool = false
-    
-    var firstOriginalPosition : CGPoint?
-    var secondOriginalPosition : CGPoint?
+    class Item {
+        let sprite: SKSpriteNode
+        var touched: Bool = false
+        var originalPosition: CGPoint? = nil
+        private var locked: Bool = false
         
-    init(firstImageName: String, secondImageName: String) {
-        self.first = SKSpriteNode(imageNamed: firstImageName)
-        self.second = SKSpriteNode(imageNamed: secondImageName)
+        init(sprite: SKSpriteNode) {
+            self.sprite = sprite
+            self.originalPosition = nil
+        }
+        
+        func shrink() {
+            sprite.runAction(SKAction.scaleTo(0, duration: 0.5))
+        }
+        
+        func moveTo(location: CGPoint) {
+            sprite.runAction(SKAction.moveTo(location, duration: 0.2))
+        }
+        
+        func lock() {
+            self.locked = true
+        }
+        func unlock() {
+            self.locked = false
+        }
+        func isLocked() -> Bool {
+            return self.locked
+        }
     }
     
-    init(first : SKSpriteNode, second: SKSpriteNode)
+    var first : [Item]
+    var second : Item
+    
+    convenience init(firstImageName: String, secondImageName: String) {
+        self.init(first: SKSpriteNode(imageNamed: firstImageName), second: SKSpriteNode(imageNamed: secondImageName))
+    }
+    
+    convenience init(first : SKSpriteNode, second: SKSpriteNode)
     {
-        self.first = first
-        self.second = second
+        self.init(first: [first], second: second)
+    }
+    
+    init(first: [SKSpriteNode], second: SKSpriteNode) {
+        self.first = []
+        self.second = Item(sprite: second)
+        
+        for node in first {
+            self.first.append(Item(sprite: node))
+        }
     }
     
     func isTouched(node:SKSpriteNode) -> Bool {
-        return (node == first && firstTouched) || (node == second && secondTouched)
+        if(node == second.sprite && second.touched) {
+            return true
+        }
+        for item in first {
+            if (item.sprite == node && item.touched) {
+                return true
+            }
+        }
+        return false
     }
     
     func touched(node:SKSpriteNode, onlyFirst: Bool = false) -> SKSpriteNode? {
-        if(node == first && !firstTouched)
-        {
-            touch(first)
-            return first
-        }
-        if(node == second && !secondTouched && !onlyFirst)
-        {
+        if(node == second.sprite && !second.touched && !onlyFirst) {
             touch(second)
-            return second
+            return second.sprite
+        }
+
+        for item in first {
+            if(node == item.sprite && !item.touched) {
+                touch(item)
+                return item.sprite
+            }
         }
         return nil
     }
     
-    func touch(node: SKSpriteNode) {
-        if(node == first) {
-            if(firstTouched) {
-                return
-            }
-            firstTouched = true
-            firstOriginalPosition = first.position
+    func touch(item: Item) {
+        if(item.touched) {
+            return
         }
-        if(node == second) {
-            if(secondTouched) {
-                return
-            }
-            secondTouched = true
-            secondOriginalPosition = second.position
-        }
+        item.touched = true
+        item.originalPosition = item.sprite.position
         
 //        let action1 = SKAction.scaleTo(1.0, duration: 0.2)
 //        let action2 = SKAction.scaleTo(1.1, duration: 0.2)
@@ -74,55 +105,79 @@ class Couple
         let action3 = SKAction.rotateByAngle(0.1, duration: 0.2)
         let action = SKAction.sequence([action1, action2, action3])
         
-        node.runAction(SKAction.repeatActionForever(action))
+        item.sprite.runAction(SKAction.repeatActionForever(action))
     }
     
-    func untouched(node:SKSpriteNode) -> SKSpriteNode? {
-        if(node == first && firstTouched)
-        {
-            firstTouched = false
-            untouch(first)
-            return first
-        }
-        if(node == second && secondTouched)
-        {
-            secondTouched = false
-            untouch(second)
-            return second
+    func untouched(item:Item) -> SKSpriteNode? {
+        if(item.touched) {
+            item.touched = false
+            untouch(item)
+            return item.sprite
         }
         return nil
     }
     
     func stop() {
-        untouch(first)
         untouch(second)
+        for item in first {
+            untouch(item)
+        }
     }
     
     func reset() {
         stop()
-        firstTouched=false
-        secondTouched=false
+        second.touched = false
+        for item in first {
+            item.touched = false
+        }
     }
     
-    private func untouch(node:SKSpriteNode) {
-        var location : CGPoint?
-        if(node == first) {
-            location = firstOriginalPosition
-            firstOriginalPosition = nil
-        }
-        if(node == second) {
-            location = secondOriginalPosition
-            secondOriginalPosition = nil
-        }
-        
-        if let loc = location {
-            node.removeAllActions()
+    private func untouch(item:Item) {
+        if let location = item.originalPosition {
+            item.originalPosition = nil
+            item.sprite.removeAllActions()
             
-            node.runAction(SKAction.group([SKAction.moveTo(loc, duration: 0.2), SKAction.rotateToAngle(0, duration: 0.2), SKAction.scaleTo(1, duration: 0.2)]))
+            if !item.isLocked() {
+                item.sprite.runAction(SKAction.group([SKAction.moveTo(location, duration: 0.2), SKAction.rotateToAngle(0, duration: 0.2), SKAction.scaleTo(1, duration: 0.2)]))
+            }
         }
     }
     
-    func allTouched() -> Bool {
-        return firstTouched && secondTouched
+    func areAllTouched() -> Bool {
+        if !second.touched {
+            return false
+        }
+        for item in first {
+            if item.touched {
+                return true
+            }
+        }
+        return false
+    }
+    func firstTouched() -> Item? {
+        for item in first {
+            if item.touched {
+                return item
+            }
+        }
+        return nil
+    }
+    func secondTouched() -> Item? {
+        return second.touched ? second : nil
+    }
+    func touchedItems() -> [Item] {
+        var result : [Item] = []
+        
+        if let f = firstTouched() {
+            result.append(f)
+        }
+        if let s = secondTouched() {
+            result.append(s)
+        }
+        return result
+    }
+    
+    func target() -> Int {
+        return first.count
     }
 }

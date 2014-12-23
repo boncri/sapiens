@@ -19,12 +19,15 @@ class PlayGround
     var dragged:SKSpriteNode?
     var draggedOffset:CGPoint = CGPointZero
     
+    private var target: Int = 0
+    
     init(dragMode: Bool) {
         self.dragMode = dragMode
     }
     
     func add(couple:Couple) {
         couples.append(couple)
+        self.target += couple.target()
     }
     
     private func touchCouple(node:SKSpriteNode, location: CGPoint) -> Couple? {
@@ -43,7 +46,7 @@ class PlayGround
         
         return selected?
     }
-    private func untouchCouple(node:SKSpriteNode) -> Couple? {
+    private func untouchCouple(node:Couple.Item) -> Couple? {
         var selected:Couple?
         
         for couple in couples {
@@ -63,7 +66,7 @@ class PlayGround
             if(numTouches == 2)
             {
                 numTouches = 0
-                if(selected.allTouched() == true)
+                if(selected.areAllTouched() == true)
                 {
                     return selected
                 } else {
@@ -77,11 +80,11 @@ class PlayGround
         return nil
     }
     
-    func untouched(node:SKSpriteNode) -> Couple? {
+    func untouched(node:Couple.Item) -> Couple? {
         var selected:Couple? = untouchCouple(node)
 
         if let couple = untouchCouple(node) {
-            if !couple.allTouched() {
+            if !couple.areAllTouched() {
                 numTouches--
                 selected!.reset()
                 return couple
@@ -97,7 +100,7 @@ class PlayGround
         }
         
         if let couple = draggedCouple {
-            let win = couple.allTouched()
+            let win = couple.areAllTouched()
 
             numTouches = 0
             draggedCouple = nil
@@ -121,7 +124,7 @@ class PlayGround
         if let node = dragged {
             node.position = CGPoint(x: location.x + draggedOffset.x, y: location.y + draggedOffset.y)
             if let couple = draggedCouple {
-                if(contact(node, second: couple.second)) {
+                if(contact(node, second: couple.second.sprite)) {
                     couple.touch(couple.second)
                 } else {
                     couple.untouched(couple.second)
@@ -145,5 +148,9 @@ class PlayGround
     func positionOfCenter(node: SKSpriteNode) -> CGPoint {
         return CGPoint(x: node.position.x + node.size.width * (0.5 - node.anchorPoint.x),
             y: node.position.y + node.size.height * (0.5 - node.anchorPoint.y))
+    }
+    
+    func targetScore() -> Int {
+        return couples.count
     }
 }

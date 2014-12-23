@@ -84,7 +84,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
 
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = UIColor(red: 60 / 256.0, green: 180 / 256.0, blue: 240 / 256.0, alpha: 1)
         
         let layerBackground = SKNode()
         layerBackground.zPosition = -100
@@ -166,21 +166,23 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             
             if let touched = self.nodeAtPoint(location) as? SKSpriteNode {
                 if let couple = playGround.touched(touched, location: location) {
-                    if(couple.allTouched())
+                    if(couple.areAllTouched())
                     {
-                        couple.first.alpha = 0.25
-                        couple.second.alpha = 0.25
+                        for item in couple.touchedItems() {
+                            item.sprite.alpha = 0.25
+                        }
                         score++
-                        if(score == playGround.couples.count)
+                        if(score == playGround.targetScore())
                         {
                             playerWin.play()
+                            couple.stop()
                         } else {
                             player.play()
                         }
-                        
-                        delay(2) {
+                        delay(1) {
                             couple.stop()
                         }
+                        
                     }
                 } else {
                     if(touched == play)
@@ -201,17 +203,30 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     }
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         if let couple = playGround.cancelTouch() {
-            couple.first.alpha = 0
-            score++
-            if(score == playGround.couples.count)
-            {
-                playerWin.play()
-            } else {
-                player.play()
-            }
-            
-            delay(2) {
-                couple.stop()
+            if let item = couple.firstTouched() {
+
+                // First effect (Birds)
+//                item.shrink()
+                
+                // Second effect (eating)
+                if let second = couple.secondTouched() {
+                    item.moveTo(second.sprite.position)
+                    second.shrink()
+                    second.lock()
+                }
+                item.lock()
+                
+                score++
+                if(score == playGround.couples.count)
+                {
+                    playerWin.play()
+                } else {
+                    player.play()
+                }
+                
+                delay(2) {
+                    couple.stop()
+                }
             }
         }
     }

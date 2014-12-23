@@ -34,8 +34,8 @@ class BirdsLayout : BaseLayout {
             } while(occupied2[r1] == true)
             occupied2[r1] = true
             
-            couple.second.anchorPoint = CGPoint(x: 0.5, y: 1)
-            couple.second.position = CGPoint(x: positions[r1][0], y: positions[r1][1])
+            couple.second.sprite.anchorPoint = CGPoint(x: 0.5, y: 1)
+            couple.second.sprite.position = CGPoint(x: positions[r1][0], y: positions[r1][1])
          
             do {
                 r2 = Int(arc4random_uniform(UInt32(n)))
@@ -46,13 +46,13 @@ class BirdsLayout : BaseLayout {
             
             println("(\(x), \(yBase))")
             
-            couple.first.position = CGPoint(x: x, y: yBase)
+            couple.first[0].sprite.position = CGPoint(x: x, y: yBase)
             
-            couple.first.zPosition = 2
-            couple.second.zPosition = 1
+            couple.first[0].sprite.zPosition = 2
+            couple.second.sprite.zPosition = 1
             
-            scene.addChild(couple.first)
-            scene.addChild(couple.second)
+            scene.addChild(couple.first[0].sprite)
+            scene.addChild(couple.second.sprite)
         }
     }
 }

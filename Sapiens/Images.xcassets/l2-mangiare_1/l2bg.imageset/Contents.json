@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "bg_sole.png"
+      "filename" : "sfondo.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "bg_sole@2x.png"
+      "filename" : "sfondo@2x.png"
     },
     {
       "idiom" : "universal",

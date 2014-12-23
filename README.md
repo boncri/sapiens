@@ -9,15 +9,15 @@
     - mani e numeri
     - famiglie / insiemi
 
-- Trovare l'oggetto giusto : toccare l'oggetto corretto scegliendolo tra altri
-    - trova la bimba con i capelli ...
-    - trova il bimbo con il vestito ...
-
 - Trascinare un oggetto verso il suo corrispondente
     - porta l'animale verso la sua casa
     - cosa mangia?
 
-- Trascinare un oggetto verso un obiettivo
+- Trovare l'oggetto giusto : toccare l'oggetto corretto scegliendolo tra altri
+    - trova la bimba con i capelli ...
+    - trova il bimbo con il vestito ...
+
+- Trascinare più oggetti verso un obiettivo
     - oggetti di scuola verso lo zainetto
     - frutta verso il vasetto
 

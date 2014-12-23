@@ -42,11 +42,17 @@ class TopBottomRowLayout : BaseLayout {
             
             println("(\(x0),\(y0)) - (\(x1),\(y1))")
             
-            couple.first.position = CGPoint(x: x0, y: y0)
-            couple.second.position = CGPoint(x: x1, y: y1)
+            let f = couple.first[0].sprite
+            let s = couple.second.sprite
             
-            scene.addChild(couple.first)
-            scene.addChild(couple.second)
+            f.position = CGPoint(x: x0, y: y0)
+            s.position = CGPoint(x: x1, y: y1)
+            
+            f.zPosition = 2
+            s.zPosition = 1
+
+            scene.addChild(f)
+            scene.addChild(s)
         }
     }
 }

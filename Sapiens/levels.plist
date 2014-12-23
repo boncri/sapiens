@@ -4,15 +4,6 @@
 <dict>
 	<key>levels</key>
 	<dict>
-		<key>6</key>
-		<dict>
-			<key>count</key>
-			<integer>6</integer>
-			<key>layout</key>
-			<string>GridLayout</string>
-			<key>mode</key>
-			<string>click</string>
-		</dict>
 		<key>1</key>
 		<dict>
 			<key>count</key>
@@ -29,7 +20,7 @@
 			<key>layout</key>
 			<string>TopBottomRowLayout</string>
 			<key>mode</key>
-			<string>click</string>
+			<string>drag</string>
 		</dict>
 		<key>3</key>
 		<dict>
@@ -38,7 +29,7 @@
 			<key>layout</key>
 			<string>TopBottomRowLayout</string>
 			<key>mode</key>
-			<string>click</string>
+			<string>drag</string>
 		</dict>
 		<key>4</key>
 		<dict>
@@ -57,6 +48,15 @@
 			<string>BirdsLayout</string>
 			<key>mode</key>
 			<string>drag</string>
+		</dict>
+		<key>6</key>
+		<dict>
+			<key>count</key>
+			<integer>6</integer>
+			<key>layout</key>
+			<string>GridLayout</string>
+			<key>mode</key>
+			<string>click</string>
 		</dict>
 	</dict>
 </dict>
