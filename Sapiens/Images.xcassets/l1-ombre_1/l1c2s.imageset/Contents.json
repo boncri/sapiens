@@ -3,11 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "giraffa-ombra.png"
+      "filename" : "cigno-ombra.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "cigno-ombra@2x.png"
     },
     {
       "idiom" : "universal",

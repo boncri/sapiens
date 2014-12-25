@@ -4,6 +4,15 @@
 <dict>
 	<key>levels</key>
 	<dict>
+		<key>7</key>
+		<dict>
+			<key>count</key>
+			<integer>6</integer>
+			<key>layout</key>
+			<string>GridLayout</string>
+			<key>mode</key>
+			<string>click</string>
+		</dict>
 		<key>1</key>
 		<dict>
 			<key>count</key>
@@ -15,6 +24,8 @@
 		</dict>
 		<key>2</key>
 		<dict>
+			<key>finalEffect</key>
+			<string>secondShrink</string>
 			<key>count</key>
 			<integer>4</integer>
 			<key>layout</key>
@@ -24,6 +35,8 @@
 		</dict>
 		<key>3</key>
 		<dict>
+			<key>finalEffect</key>
+			<string>secondShrink</string>
 			<key>count</key>
 			<integer>4</integer>
 			<key>layout</key>
@@ -42,6 +55,10 @@
 		</dict>
 		<key>5</key>
 		<dict>
+			<key>finalEffect</key>
+			<string>firstShrink</string>
+			<key>balloons.y</key>
+			<integer>16</integer>
 			<key>count</key>
 			<integer>4</integer>
 			<key>layout</key>

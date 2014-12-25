@@ -3,11 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "tarta-ombra.png"
+      "filename" : "farfalla-ombra.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "farfalla-ombra@2x.png"
     },
     {
       "idiom" : "universal",

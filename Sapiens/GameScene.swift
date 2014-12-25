@@ -15,20 +15,26 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         let layout : String
         let mode : String
         let levelNumber: Int
+        let balloonsY : CGFloat
+        let finalEffect : String
         
-        init(levelNumber: Int, count:Int, layout: String, mode: String) {
+        init(levelNumber: Int, count:Int, layout: String, mode: String, balloonsY: CGFloat, finalEffect : String) {
             self.levelNumber = levelNumber
             self.count = count
             self.layout = layout
             self.mode = mode
+            self.balloonsY = balloonsY
+            self.finalEffect = finalEffect
         }
         convenience init(levelNumber: Int, levelInfo: NSDictionary) {
             let count:Int? = levelInfo.objectForKey("count") as? Int
             let layout:String? = levelInfo.objectForKey("layout") as? String
             let mode:String? = levelInfo.objectForKey("mode") as? String
+            let balloonsY:CGFloat? = levelInfo.objectForKey("balloons.y") as? CGFloat
+            let finalEffect:String? = levelInfo.objectForKey("finalEffect") as? String
             
             if(count != nil && layout != nil && mode != nil) {
-                self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!)
+                self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!, balloonsY: balloonsY? == nil ? 50 : balloonsY!, finalEffect: finalEffect?==nil ? "" : finalEffect!)
             } else {
                 fatalError("levelInfo invalid")
             }
@@ -88,35 +94,71 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         
         let layerBackground = SKNode()
         layerBackground.zPosition = -100
-        layerBackground.position = CGPoint(x: 0,y: 0)
+        layerBackground.position = CGPoint(x: 0,y: -self.frame.height - 360)
 
                 let bg = SKSpriteNode(imageNamed: "l\(level.levelNumber)bg")
                 bg.position = CGPoint(x: self.frame.width/2, y:self.frame.height/2)
                 bg.zPosition = -100
                 layerBackground.addChild(bg)
 
+        let balloon1 = SKSpriteNode(imageNamed: "palloncini")
+        let balloon2 = SKSpriteNode(imageNamed: "palloncini")
+
+        balloon1.anchorPoint = CGPoint(x: 0.5, y: 0)
+        balloon1.position = CGPoint(x: 256, y: self.frame.height - level.balloonsY)
+        balloon1.zPosition = 10
+        layerBackground.addChild(balloon1)
+        
+        balloon2.anchorPoint = CGPoint(x: 0.5, y: 0)
+        balloon2.position = CGPoint(x: 768, y: self.frame.height - level.balloonsY)
+        balloon2.zPosition = 10
+        layerBackground.addChild(balloon2)
+        
         self.addChild(layerBackground)
         
         let layerControls = SKNode()
         layerControls.zPosition = 10
         layerControls.position = CGPoint(x:0,y:0)
         
-        play.position = CGPoint(x: 60, y: self.frame.height - 60)
+        play.position = CGPoint(x: 40, y: self.frame.height - 30)
+        play.setScale(0.6)
         layerControls.addChild(play)
 
-        back.position = CGPoint(x: self.frame.width - 60, y: self.frame.height - 60)
+        back.position = CGPoint(x: self.frame.width - 60, y: self.frame.height - 30)
+        back.setScale(0.6)
         layerControls.addChild(back)
 
         self.addChild(layerControls)
         
         initGraphics()
-        self.addChild(layerGame)
+        layerGame.zPosition = 100
+        layerBackground.addChild(layerGame)
         
         player = AVAudioPlayer(data: wow, error: nil)
         player.prepareToPlay()
         
         playerWin = AVAudioPlayer(data: cheers, error: nil)
         playerWin.prepareToPlay()
+        
+        let rotate1 = SKAction.rotateByAngle(0.1, duration: 0.2)
+        rotate1.timingMode = SKActionTimingMode.EaseOut
+        let rotate2 = SKAction.rotateByAngle(-0.2, duration: 0.4)
+        rotate2.timingMode = SKActionTimingMode.EaseInEaseOut
+        let rotate3 = SKAction.rotateByAngle(0.1, duration: 0.2)
+        rotate3.timingMode = SKActionTimingMode.EaseIn
+        let wave = SKAction.sequence([rotate1, rotate2, rotate3])
+        balloon1.runAction(SKAction.repeatActionForever(wave))
+        balloon2.runAction(SKAction.repeatActionForever(wave))
+        
+        let moveup = SKAction.moveTo(CGPoint(x:0, y:0), duration: 2)
+        moveup.timingMode = SKActionTimingMode.EaseOut
+        
+        let remove = SKAction.runBlock({
+            balloon1.removeFromParent()
+            balloon2.removeFromParent()
+        })
+        layerBackground.runAction(SKAction.sequence([moveup, remove]))
+        
     }
     
     private func initGraphics()
@@ -206,13 +248,17 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             if let item = couple.firstTouched() {
 
                 // First effect (Birds)
-//                item.shrink()
+                if(level.finalEffect == "firstShrink") {
+                    item.shrink()
+                }
                 
                 // Second effect (eating)
-                if let second = couple.secondTouched() {
-                    item.moveTo(second.sprite.position)
-                    second.shrink()
-                    second.lock()
+                if(level.finalEffect == "secondShrink") {
+                    if let second = couple.secondTouched() {
+                        item.moveTo(second.sprite.position)
+                        second.shrink()
+                        second.lock()
+                    }
                 }
                 item.lock()
                 
