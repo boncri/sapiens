@@ -74,38 +74,42 @@ class Couple
         return false
     }
     
-    func touched(node:SKSpriteNode, onlyFirst: Bool = false) -> SKSpriteNode? {
+    func touched(node:SKSpriteNode, onlyFirst: Bool = false, touchEffect: [String:String]) -> SKSpriteNode? {
         if(node == second.sprite && !second.touched && !onlyFirst) {
-            touch(second)
+            touch(second, touchEffect: touchEffect["second"]!)
             return second.sprite
         }
 
         for item in first {
             if(node == item.sprite && !item.touched) {
-                touch(item)
+                touch(item, touchEffect: touchEffect["first"]!)
                 return item.sprite
             }
         }
         return nil
     }
     
-    func touch(item: Item) {
+    func touch(item: Item, touchEffect: String) {
         if(item.touched) {
             return
         }
         item.touched = true
         item.originalPosition = item.sprite.position
         
-//        let action1 = SKAction.scaleTo(1.0, duration: 0.2)
-//        let action2 = SKAction.scaleTo(1.1, duration: 0.2)
-//        let action = SKAction.sequence([action1, action2])
-        
-        let action1 = SKAction.rotateByAngle(0.1, duration: 0.2)
-        let action2 = SKAction.rotateByAngle(-0.2, duration: 0.4)
-        let action3 = SKAction.rotateByAngle(0.1, duration: 0.2)
-        let action = SKAction.sequence([action1, action2, action3])
-        
-        item.sprite.runAction(SKAction.repeatActionForever(action))
+        var action: SKAction
+        switch(touchEffect) {
+            case "swing":
+                let action1 = SKAction.rotateByAngle(0.1, duration: 0.2)
+                let action2 = SKAction.rotateByAngle(-0.2, duration: 0.4)
+                let action3 = SKAction.rotateByAngle(0.1, duration: 0.2)
+                let actionSeq = SKAction.sequence([action1, action2, action3])
+                action = SKAction.repeatActionForever(actionSeq)
+                
+            default:
+                action = SKAction.scaleTo(1.2, duration: 0.2)
+                action.timingMode = SKActionTimingMode.EaseOut
+        }
+        item.sprite.runAction(action, withKey: "touched")
     }
     
     func untouched(item:Item) -> SKSpriteNode? {
@@ -135,7 +139,7 @@ class Couple
     private func untouch(item:Item) {
         if let location = item.originalPosition {
             item.originalPosition = nil
-            item.sprite.removeAllActions()
+            item.sprite.removeActionForKey("touched")
             
             if !item.isLocked() {
                 item.sprite.runAction(SKAction.group([SKAction.moveTo(location, duration: 0.2), SKAction.rotateToAngle(0, duration: 0.2), SKAction.scaleTo(1, duration: 0.2)]))

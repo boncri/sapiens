@@ -12,6 +12,8 @@ import SpriteKit
 class PlayGround
 {
     let dragMode:Bool
+    let touchEffect:[String:String]
+    
     var couples:[Couple] = []
     private var numTouches:Int = 0
 
@@ -21,8 +23,9 @@ class PlayGround
     
     private var target: Int = 0
     
-    init(dragMode: Bool) {
+    init(dragMode: Bool, touchEffect: [String:String]) {
         self.dragMode = dragMode
+        self.touchEffect = touchEffect
     }
     
     func add(couple:Couple) {
@@ -34,7 +37,7 @@ class PlayGround
         var selected:Couple?
         
         for couple in couples {
-            if let node = couple.touched(node, onlyFirst: dragMode)
+            if let node = couple.touched(node, onlyFirst: dragMode, touchEffect: touchEffect)
             {
                 selected = couple
                 dragged = node
@@ -125,7 +128,7 @@ class PlayGround
             node.position = CGPoint(x: location.x + draggedOffset.x, y: location.y + draggedOffset.y)
             if let couple = draggedCouple {
                 if(contact(node, second: couple.second.sprite)) {
-                    couple.touch(couple.second)
+                    couple.touch(couple.second, touchEffect: touchEffect["second"]!)
                 } else {
                     couple.untouched(couple.second)
                 }

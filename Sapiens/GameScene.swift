@@ -17,27 +17,47 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         let levelNumber: Int
         let balloonsY : CGFloat
         let finalEffect : String
+        let finalEffectParams : NSDictionary
+        let touchEffect : [String:String]
         
-        init(levelNumber: Int, count:Int, layout: String, mode: String, balloonsY: CGFloat, finalEffect : String) {
+        init(levelNumber: Int, count:Int, layout: String, mode: String, balloonsY: CGFloat, finalEffect : String, finalEffectParams: NSDictionary, touchEffect: [String:String]) {
             self.levelNumber = levelNumber
             self.count = count
             self.layout = layout
             self.mode = mode
             self.balloonsY = balloonsY
             self.finalEffect = finalEffect
+            self.finalEffectParams = finalEffectParams
+            self.touchEffect = touchEffect
         }
         convenience init(levelNumber: Int, levelInfo: NSDictionary) {
             let count:Int? = levelInfo.objectForKey("count") as? Int
             let layout:String? = levelInfo.objectForKey("layout") as? String
             let mode:String? = levelInfo.objectForKey("mode") as? String
-            let balloonsY:CGFloat? = levelInfo.objectForKey("balloons.y") as? CGFloat
-            let finalEffect:String? = levelInfo.objectForKey("finalEffect") as? String
+            let balloonsY:CGFloat = LevelInfo.objectForKey(levelInfo, key: "balloons.y", defaultValue: 50)
+            let finalEffect:String = LevelInfo.objectForKey(levelInfo, key: "finalEffect", defaultValue: "firstMoveAndShrink")
+            let finalEffectParams:NSDictionary = LevelInfo.objectForKey(levelInfo, key: "finalEffect.params", defaultValue: NSDictionary())
+            var touchEffect:[String:String] = LevelInfo.objectForKey(levelInfo, key: "touchEffect", defaultValue: [String:String]())
             
             if(count != nil && layout != nil && mode != nil) {
-                self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!, balloonsY: balloonsY? == nil ? 50 : balloonsY!, finalEffect: finalEffect?==nil ? "" : finalEffect!)
+                if touchEffect.indexForKey("first") == nil {
+                    touchEffect["first"] = ""
+                }
+                if touchEffect.indexForKey("second") == nil {
+                    touchEffect["second"] = ""
+                }
+                
+                self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!, balloonsY: balloonsY, finalEffect: finalEffect, finalEffectParams: finalEffectParams, touchEffect: touchEffect)
             } else {
                 fatalError("levelInfo invalid")
             }
+        }
+        
+        class func objectForKey<T>(dictionary: NSDictionary, key: String, defaultValue: T) -> T {
+            if let result = dictionary.objectForKey(key) as? T {
+                return result
+            }
+            return defaultValue
         }
         
         class func getLevels() -> NSDictionary {
@@ -79,7 +99,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private let level : LevelInfo;
     init(size: CGSize, level: Int) {
         self.level = LevelInfo.getLevel(level)
-        self.playGround = PlayGround(dragMode: self.level.mode == "drag")
+        self.playGround = PlayGround(dragMode: self.level.mode == "drag", touchEffect: self.level.touchEffect)
         
         super.init(size: size)
     }
@@ -210,9 +230,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 if let couple = playGround.touched(touched, location: location) {
                     if(couple.areAllTouched())
                     {
-                        for item in couple.touchedItems() {
-                            item.sprite.alpha = 0.25
-                        }
                         score++
                         if(score == playGround.targetScore())
                         {
@@ -221,10 +238,12 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                         } else {
                             player.play()
                         }
+                        for item in couple.touchedItems() {
+                            item.sprite.alpha = 0.25
+                        }
                         delay(1) {
                             couple.stop()
-                        }
-                        
+                        }                        
                     }
                 } else {
                     if(touched == play)
@@ -245,35 +264,23 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     }
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         if let couple = playGround.cancelTouch() {
-            if let item = couple.firstTouched() {
-
-                // First effect (Birds)
-                if(level.finalEffect == "firstShrink") {
-                    item.shrink()
-                }
-                
-                // Second effect (eating)
-                if(level.finalEffect == "secondShrink") {
-                    if let second = couple.secondTouched() {
-                        item.moveTo(second.sprite.position)
-                        second.shrink()
-                        second.lock()
-                    }
-                }
-                item.lock()
-                
-                score++
-                if(score == playGround.couples.count)
-                {
-                    playerWin.play()
-                } else {
-                    player.play()
-                }
-                
-                delay(2) {
-                    couple.stop()
-                }
+            couple.stop()
+            
+            let e = CoupleEffect(parameters: level.finalEffectParams)
+            
+            e.performEffect(couple, withKey: level.finalEffect)
+            
+            score++
+            if(score == playGround.couples.count)
+            {
+                playerWin.play()
+            } else {
+                player.play()
             }
+            
+//            delay(2) {
+//                couple.stop()
+//            }
         }
     }
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {

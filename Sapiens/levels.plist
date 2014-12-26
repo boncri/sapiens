@@ -4,23 +4,54 @@
 <dict>
 	<key>levels</key>
 	<dict>
+		<key>9</key>
+		<dict>
+			<key>finalEffect.params</key>
+			<dict>
+				<key>offset.y</key>
+				<real>0.4</real>
+			</dict>
+			<key>finalEffect</key>
+			<string>firstMove</string>
+			<key>count</key>
+			<integer>4</integer>
+			<key>layout</key>
+			<string>TopBottomRowLayout</string>
+			<key>mode</key>
+			<string>drag</string>
+		</dict>
+		<key>8</key>
+		<dict>
+			<key>finalEffect</key>
+			<string>firstMove</string>
+			<key>count</key>
+			<integer>4</integer>
+			<key>layout</key>
+			<string>TopBottomRowLayout</string>
+			<key>mode</key>
+			<string>drag</string>
+		</dict>
 		<key>7</key>
 		<dict>
+			<key>finalEffect</key>
+			<string>firstMove</string>
 			<key>count</key>
-			<integer>6</integer>
+			<integer>4</integer>
 			<key>layout</key>
-			<string>GridLayout</string>
+			<string>TopBottomRowLayout</string>
 			<key>mode</key>
-			<string>click</string>
+			<string>drag</string>
 		</dict>
 		<key>1</key>
 		<dict>
+			<key>finalEffect</key>
+			<string>firstMove</string>
 			<key>count</key>
-			<integer>6</integer>
+			<integer>4</integer>
 			<key>layout</key>
-			<string>GridLayout</string>
+			<string>TopBottomRowLayout</string>
 			<key>mode</key>
-			<string>click</string>
+			<string>drag</string>
 		</dict>
 		<key>2</key>
 		<dict>
@@ -46,17 +77,29 @@
 		</dict>
 		<key>4</key>
 		<dict>
+			<key>finalEffect</key>
+			<string>secondShrink</string>
 			<key>count</key>
-			<integer>6</integer>
+			<integer>4</integer>
 			<key>layout</key>
-			<string>GridLayout</string>
+			<string>TopBottomRowLayout</string>
 			<key>mode</key>
-			<string>click</string>
+			<string>drag</string>
 		</dict>
 		<key>5</key>
 		<dict>
+			<key>touchEffect</key>
+			<dict>
+				<key>second</key>
+				<string>swing</string>
+			</dict>
 			<key>finalEffect</key>
-			<string>firstShrink</string>
+			<string>firstMoveAndShrink</string>
+			<key>finalEffect.params</key>
+			<dict>
+				<key>offset.y</key>
+				<real>-0.6</real>
+			</dict>
 			<key>balloons.y</key>
 			<integer>16</integer>
 			<key>count</key>
@@ -68,12 +111,14 @@
 		</dict>
 		<key>6</key>
 		<dict>
+			<key>finalEffect</key>
+			<string>secondShrink</string>
 			<key>count</key>
-			<integer>6</integer>
+			<integer>4</integer>
 			<key>layout</key>
-			<string>GridLayout</string>
+			<string>TopBottomRowLayout</string>
 			<key>mode</key>
-			<string>click</string>
+			<string>drag</string>
 		</dict>
 	</dict>
 </dict>
