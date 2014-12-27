@@ -7,9 +7,9 @@
 		<key>11</key>
 		<dict>
 			<key>finalEffect</key>
-			<string>secondShrink</string>
+			<string>join</string>
 			<key>count</key>
-			<integer>1</integer>
+			<integer>4</integer>
 			<key>layout</key>
 			<string>TopBottomRowLayout</string>
 			<key>mode</key>

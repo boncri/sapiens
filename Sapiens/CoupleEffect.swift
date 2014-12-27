@@ -27,6 +27,7 @@ class CoupleEffect {
         self.effects["secondShrink"] = secondShrink
         self.effects["secondMove"] = secondMove
         self.effects["rotateFirst"] = rotateFirst
+        self.effects["join"] = join
     }
     
     func performEffect(couple: Couple, withKey: String) {
@@ -102,5 +103,22 @@ class CoupleEffect {
     func secondShrink(first: Couple.Item, second: Couple.Item) {
         first.moveTo(second.sprite.position)
         second.shrink()
+    }
+    
+    func join(first: Couple.Item, second: Couple.Item) {
+        let location = second.sprite.position
+        
+        let f = first.sprite
+        let s = second.sprite
+    
+        let movef = SKAction.moveTo(CGPoint(x:location.x - f.size.width * 0.5 / f.xScale, y: location.y), duration: 0.2)
+        let moves = SKAction.moveTo(CGPoint(x:location.x + s.size.width * 0.5 / f.xScale, y: location.y), duration: 0.2)
+//        let scale = SKAction.scaleTo(0.5, duration: 0.2)
+        
+        let actionf = movef// SKAction.group([movef, scale])
+        let actions = moves//SKAction.group([moves, scale])
+        
+        f.runAction(actionf)
+        s.runAction(actions)
     }
 }
