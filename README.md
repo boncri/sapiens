@@ -21,6 +21,12 @@
     - oggetti di scuola verso lo zainetto
     - frutta verso il vasetto
 
+- Dividere insiemi
+    - maschi / femmine
+    - savana / fattoria
+    - frutta / verdura
+    - pesci / uccelli
+
 
 **LAYOUT**
 Ogni livello corrisponde ad un tipo di gioco con un certo layout.

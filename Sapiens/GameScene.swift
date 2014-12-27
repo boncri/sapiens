@@ -19,8 +19,9 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         let finalEffect : String
         let finalEffectParams : NSDictionary
         let touchEffect : [String:String]
+        let spritesInfo : NSDictionary
         
-        init(levelNumber: Int, count:Int, layout: String, mode: String, balloonsY: CGFloat, finalEffect : String, finalEffectParams: NSDictionary, touchEffect: [String:String]) {
+        init(levelNumber: Int, count:Int, layout: String, mode: String, balloonsY: CGFloat, finalEffect : String, finalEffectParams: NSDictionary, touchEffect: [String:String], spritesInfo: NSDictionary) {
             self.levelNumber = levelNumber
             self.count = count
             self.layout = layout
@@ -29,6 +30,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             self.finalEffect = finalEffect
             self.finalEffectParams = finalEffectParams
             self.touchEffect = touchEffect
+            self.spritesInfo = spritesInfo
         }
         convenience init(levelNumber: Int, levelInfo: NSDictionary) {
             let count:Int? = levelInfo.objectForKey("count") as? Int
@@ -38,6 +40,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             let finalEffect:String = LevelInfo.objectForKey(levelInfo, key: "finalEffect", defaultValue: "firstMoveAndShrink")
             let finalEffectParams:NSDictionary = LevelInfo.objectForKey(levelInfo, key: "finalEffect.params", defaultValue: NSDictionary())
             var touchEffect:[String:String] = LevelInfo.objectForKey(levelInfo, key: "touchEffect", defaultValue: [String:String]())
+            let spritesInfo:NSDictionary = LevelInfo.objectForKey(levelInfo, key: "sprites", defaultValue: NSDictionary())
             
             if(count != nil && layout != nil && mode != nil) {
                 if touchEffect.indexForKey("first") == nil {
@@ -47,10 +50,14 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                     touchEffect["second"] = ""
                 }
                 
-                self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!, balloonsY: balloonsY, finalEffect: finalEffect, finalEffectParams: finalEffectParams, touchEffect: touchEffect)
+                self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!, balloonsY: balloonsY, finalEffect: finalEffect, finalEffectParams: finalEffectParams, touchEffect: touchEffect, spritesInfo: spritesInfo)
             } else {
                 fatalError("levelInfo invalid")
             }
+        }
+        
+        func getSpriteInfo(spriteName: String) -> NSDictionary? {
+            return spritesInfo.objectForKey(spriteName) as? NSDictionary
         }
         
         class func objectForKey<T>(dictionary: NSDictionary, key: String, defaultValue: T) -> T {
@@ -83,9 +90,11 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     private let wow = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("wow", ofType: "wav")!)
     private let cheers = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("cheer", ofType: "caf")!)
+    private let wrong = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("headshake", ofType: "mp3")!)
     
     private var player = AVAudioPlayer()
     private var playerWin = AVAudioPlayer()
+    private let playerWrong : AVAudioPlayer
     
     private let play = SKSpriteNode(imageNamed: "replay")
     private let back = SKSpriteNode(imageNamed: "back")
@@ -100,6 +109,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     init(size: CGSize, level: Int) {
         self.level = LevelInfo.getLevel(level)
         self.playGround = PlayGround(dragMode: self.level.mode == "drag", touchEffect: self.level.touchEffect)
+        self.playerWrong = AVAudioPlayer(data: wrong, error: nil)
         
         super.init(size: size)
     }
@@ -198,8 +208,20 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         
         for(var i=1; i<=num; i++)
         {
-            let couple = Couple(firstImageName: "l\(level.levelNumber)c\(i)f", secondImageName: "l\(level.levelNumber)c\(i)s")
-            //let couple = Couple(firstImageName: "first", secondImageName: "second")
+            let firstName = "l\(level.levelNumber)c\(i)f"
+            let secondName = "l\(level.levelNumber)c\(i)s"
+            
+            let first = SKSpriteNode(imageNamed: firstName)
+            let second = SKSpriteNode(imageNamed: secondName)
+
+            if let firstUserData = level.getSpriteInfo(firstName) {
+                first.userData = NSMutableDictionary(dictionary: firstUserData)
+            }
+            if let secondUserData = level.getSpriteInfo(secondName) {
+                second.userData = NSMutableDictionary(dictionary: secondUserData)
+            }
+            
+            let couple = Couple(first: first, second: second)
             
             playGround.add(couple)
         }
@@ -227,6 +249,14 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             let location = touch.locationInNode(self)
             
             if let touched = self.nodeAtPoint(location) as? SKSpriteNode {
+                // Cerco coppia corrispondente al nodo
+                // Le coppie hanno dei nodi attivabili a tocco ed altri no.
+                // Se il nodo della coppia non è attivabile al tocco esco subito, altrimenti:
+                // - le notifico l'"attivazione" del nodo
+                // - se tutti i nodi della coppia sono stati attivati:
+                //   - notifico alla coppia che è stata "colpita"
+                //   - incremento il punteggio
+                //   - verifico se ho terminato il livello
                 if let couple = playGround.touched(touched, location: location) {
                     if(couple.areAllTouched())
                     {
@@ -234,7 +264,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                         if(score == playGround.targetScore())
                         {
                             playerWin.play()
-                            couple.stop()
+                            couple.stop(false)
                         } else {
                             player.play()
                         }
@@ -242,7 +272,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                             item.sprite.alpha = 0.25
                         }
                         delay(1) {
-                            couple.stop()
+                            couple.stop(false)
                         }                        
                     }
                 } else {
@@ -263,13 +293,20 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         }
     }
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        // Se non c'è una coppia con nodi attivi esco subito, altrimenti:
+        // - se tutti i nodi della coppia sono stati attivati:
+        //   - notifico alla coppia che è stata "colpita"
+        //   - incremento il punteggio
+        //   - verifico se ho terminato il livello
+        // - altrimenti:
+        //   - notifico alla coppia che è stata "mancata"
         if let couple = playGround.cancelTouch() {
-            couple.stop()
-            
+            couple.stop(false)
+
             let e = CoupleEffect(parameters: level.finalEffectParams)
             
             e.performEffect(couple, withKey: level.finalEffect)
-            
+
             score++
             if(score == playGround.couples.count)
             {

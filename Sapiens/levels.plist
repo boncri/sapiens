@@ -4,12 +4,65 @@
 <dict>
 	<key>levels</key>
 	<dict>
+		<key>11</key>
+		<dict>
+			<key>finalEffect</key>
+			<string>secondShrink</string>
+			<key>count</key>
+			<integer>1</integer>
+			<key>layout</key>
+			<string>TopBottomRowLayout</string>
+			<key>mode</key>
+			<string>drag</string>
+		</dict>
+		<key>10</key>
+		<dict>
+			<key>finalEffect</key>
+			<string>rotateFirst</string>
+			<key>count</key>
+			<integer>4</integer>
+			<key>layout</key>
+			<string>TopBottomRowLayout</string>
+			<key>mode</key>
+			<string>drag</string>
+		</dict>
 		<key>9</key>
 		<dict>
+			<key>sprites</key>
+			<dict>
+				<key>l9c2s</key>
+				<dict>
+					<key>finalEffect.params</key>
+					<dict>
+						<key>offset.y</key>
+						<real>0.4</real>
+					</dict>
+				</dict>
+				<key>l9c1s</key>
+				<dict>
+					<key>finalEffect.params</key>
+					<dict>
+						<key>offset.x</key>
+						<real>-0.15</real>
+						<key>offset.y</key>
+						<real>0.4</real>
+					</dict>
+				</dict>
+				<key>l9c4s</key>
+				<dict>
+					<key>finalEffect.params</key>
+					<dict>
+						<key>offset.x</key>
+						<real>0.1</real>
+						<key>offset.y</key>
+						<real>0.34</real>
+					</dict>
+				</dict>
+			</dict>
 			<key>finalEffect.params</key>
 			<dict>
 				<key>offset.y</key>
-				<real>0.4</real>
+				<real>0.38</real>
 			</dict>
 			<key>finalEffect</key>
 			<string>firstMove</string>

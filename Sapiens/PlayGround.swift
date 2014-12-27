@@ -53,7 +53,7 @@ class PlayGround
         var selected:Couple?
         
         for couple in couples {
-            if(couple.untouched(node) != nil)
+            if(couple.untouched(node, restorePosition: false) != nil)
             {
                 selected = couple
                 break
@@ -130,7 +130,7 @@ class PlayGround
                 if(contact(node, second: couple.second.sprite)) {
                     couple.touch(couple.second, touchEffect: touchEffect["second"]!)
                 } else {
-                    couple.untouched(couple.second)
+                    couple.untouched(couple.second, restorePosition: false)
                 }
             }
         }

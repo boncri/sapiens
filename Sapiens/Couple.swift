@@ -26,6 +26,10 @@ class Couple
             sprite.runAction(SKAction.scaleTo(0, duration: 0.5))
         }
         
+        func rotateBy(angle: CGFloat) {
+            sprite.runAction(SKAction.rotateByAngle(angle, duration: 0.2))
+        }
+        
         func moveTo(location: CGPoint) {
             sprite.runAction(SKAction.moveTo(location, duration: 0.2))
         }
@@ -97,6 +101,7 @@ class Couple
         item.originalPosition = item.sprite.position
         
         var action: SKAction
+        var restoreActoin: SKAction
         switch(touchEffect) {
             case "swing":
                 let action1 = SKAction.rotateByAngle(0.1, duration: 0.2)
@@ -104,46 +109,60 @@ class Couple
                 let action3 = SKAction.rotateByAngle(0.1, duration: 0.2)
                 let actionSeq = SKAction.sequence([action1, action2, action3])
                 action = SKAction.repeatActionForever(actionSeq)
+                restoreActoin = SKAction.rotateToAngle(0, duration: 0.2)
                 
             default:
                 action = SKAction.scaleTo(1.2, duration: 0.2)
                 action.timingMode = SKActionTimingMode.EaseOut
+                restoreActoin = SKAction.scaleTo(1, duration: 0.2)
         }
+
         item.sprite.runAction(action, withKey: "touched")
+        if item.sprite.userData? == nil {
+            item.sprite.userData = NSMutableDictionary()
+        }
+        item.sprite.userData?.setValue(restoreActoin, forKey: "touchedRestore")
     }
     
-    func untouched(item:Item) -> SKSpriteNode? {
+    func untouched(item:Item, restorePosition: Bool) -> SKSpriteNode? {
         if(item.touched) {
             item.touched = false
-            untouch(item)
+            untouch(item, restorePosition: restorePosition)
             return item.sprite
         }
         return nil
     }
     
-    func stop() {
-        untouch(second)
+    func stop(restorePosition: Bool) {
+        untouch(second, restorePosition: restorePosition)
         for item in first {
-            untouch(item)
+            untouch(item, restorePosition: restorePosition)
         }
     }
     
     func reset() {
-        stop()
+        stop(true)
         second.touched = false
         for item in first {
             item.touched = false
         }
     }
     
-    private func untouch(item:Item) {
-        if let location = item.originalPosition {
-            item.originalPosition = nil
-            item.sprite.removeActionForKey("touched")
-            
-            if !item.isLocked() {
-                item.sprite.runAction(SKAction.group([SKAction.moveTo(location, duration: 0.2), SKAction.rotateToAngle(0, duration: 0.2), SKAction.scaleTo(1, duration: 0.2)]))
+    private func untouch(item:Item, restorePosition: Bool) {
+        item.sprite.removeActionForKey("touched")
+        
+        if !item.isLocked() {
+            var actions : [SKAction] = []
+            if let reverse = item.sprite.userData?.objectForKey("touchedRestore") as? SKAction {
+                actions.append(reverse)
             }
+            if restorePosition {
+                if let location = item.originalPosition {
+                    item.originalPosition = nil
+                    actions.append(SKAction.moveTo(location, duration: 0.2))
+                }
+            }
+            item.sprite.runAction(SKAction.group(actions))
         }
     }
     

@@ -31,6 +31,7 @@
 		F45E48C51A44D470006B13E0 /* ColumnLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E48C41A44D470006B13E0 /* ColumnLayout.swift */; };
 		F49D8AD71A4C136000E03362 /* CoupleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D8AD61A4C136000E03362 /* CoupleEffect.swift */; };
 		F49D8AD91A4CBEB300E03362 /* ciaociao.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F49D8AD81A4CBEB300E03362 /* ciaociao.mp3 */; };
+		F4DAFFD41A4E1B3400F07812 /* headshake.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F4DAFFD31A4E1B3400F07812 /* headshake.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		F45E48C41A44D470006B13E0 /* ColumnLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnLayout.swift; sourceTree = "<group>"; };
 		F49D8AD61A4C136000E03362 /* CoupleEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoupleEffect.swift; sourceTree = "<group>"; };
 		F49D8AD81A4CBEB300E03362 /* ciaociao.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ciaociao.mp3; sourceTree = "<group>"; };
+		F4DAFFD31A4E1B3400F07812 /* headshake.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = headshake.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 		F49D8ADA1A4CBEC100E03362 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				F4DAFFD31A4E1B3400F07812 /* headshake.mp3 */,
 				F49D8AD81A4CBEB300E03362 /* ciaociao.mp3 */,
 				F45E48AC1A4069A8006B13E0 /* cheer.caf */,
 				F45E48A61A3E48B8006B13E0 /* wow.wav */,
@@ -271,6 +274,7 @@
 				F45E48AF1A40FCDE006B13E0 /* Images.xcassets in Resources */,
 				F45E48811A3DA735006B13E0 /* GameScene.sks in Resources */,
 				F45E48881A3DA735006B13E0 /* Main.storyboard in Resources */,
+				F4DAFFD41A4E1B3400F07812 /* headshake.mp3 in Resources */,
 				F45E48BF1A44D0AB006B13E0 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

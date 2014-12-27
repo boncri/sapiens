@@ -26,6 +26,7 @@ class CoupleEffect {
         self.effects["firstMoveAndShrink"] = firstMoveAndShrink
         self.effects["secondShrink"] = secondShrink
         self.effects["secondMove"] = secondMove
+        self.effects["rotateFirst"] = rotateFirst
     }
     
     func performEffect(couple: Couple, withKey: String) {
@@ -40,9 +41,9 @@ class CoupleEffect {
         }
     }
     
-    func readOffsetParam() -> CGPoint {
-        var x:CGFloat = 0
-        var y:CGFloat = 0
+    func readOffsetParam(parameters: NSDictionary, defaultOffset: CGPoint = CGPointZero) -> CGPoint {
+        var x:CGFloat = defaultOffset.x
+        var y:CGFloat = defaultOffset.y
         
         if let xx = parameters.objectForKey("offset.x") as? CGFloat {
             x = xx
@@ -52,6 +53,25 @@ class CoupleEffect {
         }
 
         return CGPoint(x: x, y: y)
+    }
+    
+    func calcPositionFromSpritePositionAndOffset(sprite: SKSpriteNode, defaultOffset: CGPoint) -> CGPoint {
+        var offset:CGPoint = defaultOffset
+        
+        if let userData = sprite.userData?.objectForKey("finalEffect.params") as? NSDictionary {
+            offset = readOffsetParam(userData, defaultOffset: offset)
+        }
+
+        let position = sprite.position
+        let size = sprite.size
+        
+        return CGPoint(x: position.x + offset.x * size.width, y: position.y + offset.y * size.height)
+    }
+    
+    func rotateFirst(first: Couple.Item, second: Couple.Item) {
+        firstMove(first, second: second)
+        first.rotateBy(CGFloat(2 * M_PI))
+        second.sprite.runAction(SKAction.fadeAlphaTo(0, duration: 0.2))
     }
     
     func firstShrink(first: Couple.Item, second: Couple.Item) {
@@ -65,24 +85,22 @@ class CoupleEffect {
     }
     
     func firstMove(first: Couple.Item, second: Couple.Item) {
-        let offset = readOffsetParam()
+        let offset = readOffsetParam(parameters)
         
-        first.moveTo(CGPoint(x: second.sprite.position.x + offset.x * second.sprite.size.width, y: second.sprite.position.y + offset.y * second.sprite.size.height))
+        first.moveTo(calcPositionFromSpritePositionAndOffset(second.sprite, defaultOffset: offset))
     }
     
     func secondMove(first: Couple.Item, second: Couple.Item) {
         firstMove(first, second: second)
         
-        let offset = readOffsetParam()
+        let offset = readOffsetParam(parameters)
         
         second.sprite.zPosition = first.sprite.zPosition + 10
-        second.moveTo(CGPoint(x: first.sprite.position.x + offset.x * first.sprite.size.width, y: first.sprite.position.y + offset.y * second.sprite.size.height))
+        second.moveTo(calcPositionFromSpritePositionAndOffset(first.sprite, defaultOffset: offset))
     }
     
     func secondShrink(first: Couple.Item, second: Couple.Item) {
         first.moveTo(second.sprite.position)
         second.shrink()
-        second.lock()
-        first.lock()
     }
 }
