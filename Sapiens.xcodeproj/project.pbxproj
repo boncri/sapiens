@@ -32,6 +32,7 @@
 		F49D8AD71A4C136000E03362 /* CoupleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D8AD61A4C136000E03362 /* CoupleEffect.swift */; };
 		F49D8AD91A4CBEB300E03362 /* ciaociao.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F49D8AD81A4CBEB300E03362 /* ciaociao.mp3 */; };
 		F4DAFFD41A4E1B3400F07812 /* headshake.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F4DAFFD31A4E1B3400F07812 /* headshake.mp3 */; };
+		F4DAFFD61A506E1000F07812 /* NSDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DAFFD51A506E1000F07812 /* NSDictionary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		F49D8AD61A4C136000E03362 /* CoupleEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoupleEffect.swift; sourceTree = "<group>"; };
 		F49D8AD81A4CBEB300E03362 /* ciaociao.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ciaociao.mp3; sourceTree = "<group>"; };
 		F4DAFFD31A4E1B3400F07812 /* headshake.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = headshake.mp3; sourceTree = "<group>"; };
+		F4DAFFD51A506E1000F07812 /* NSDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDictionary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				F41706A91A458E2C00F7B734 /* layout */,
 				F41706A71A458D9100F7B734 /* LevelChooseNode.swift */,
 				F49D8AD61A4C136000E03362 /* CoupleEffect.swift */,
+				F4DAFFD51A506E1000F07812 /* NSDictionary.swift */,
 			);
 			path = Sapiens;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				F4199EBF1A4641C500632CDD /* BirdsLayout.swift in Sources */,
 				F45E48C11A44D266006B13E0 /* TopBottomLayout.swift in Sources */,
 				F45E487F1A3DA735006B13E0 /* AppDelegate.swift in Sources */,
+				F4DAFFD61A506E1000F07812 /* NSDictionary.swift in Sources */,
 				F41706A81A458D9100F7B734 /* LevelChooseNode.swift in Sources */,
 				F45E48A91A3F968F006B13E0 /* GridLayout.swift in Sources */,
 				F49D8AD71A4C136000E03362 /* CoupleEffect.swift in Sources */,

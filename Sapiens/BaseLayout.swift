@@ -12,13 +12,15 @@ import SpriteKit
 class BaseLayout {
     let size:CGSize
     let topLeft:CGPoint
+    let options:NSDictionary
     
-    init(size: CGSize, topLeft: CGPoint) {
+    init(size: CGSize, topLeft: CGPoint, options: NSDictionary) {
         self.size = size
         self.topLeft = topLeft
+        self.options = options
     }
     
     func placeAll(couples: [Couple], scene: SKNode) {
         fatalError("Must be overridden")
-    }
+    }    
 }

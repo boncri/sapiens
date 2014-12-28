@@ -21,17 +21,20 @@ class TopBottomRowLayout : BaseLayout {
         var occupiedTop = [Bool](count: columns, repeatedValue: false)
         var occupiedBottom = [Bool](count: columns, repeatedValue: false)
         
-        var r1 : Int
-        var r2 : Int
+        let r1Random = self.options.objectForKey("random.1", defaultValue: true)
+        let r2Random = self.options.objectForKey("random.2", defaultValue: true)
+        
+        var r1 : Int = -1
+        var r2 : Int = -1
         for couple in couples
         {
             do {
-                r1 = Int(arc4random_uniform(UInt32(columns)))
+                r1 = r1Random ? Int(arc4random_uniform(UInt32(columns))) : r1 + 1
             }while(occupiedTop[r1] == true)
             occupiedTop[r1] = true
             
             do {
-                r2 = Int(arc4random_uniform(UInt32(columns)))
+                r2 = r2Random ? Int(arc4random_uniform(UInt32(columns))) : r2 + 1
             }while(occupiedBottom[r2] == true)
             occupiedBottom[r2] = true
             

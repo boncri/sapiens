@@ -12,8 +12,8 @@ import SpriteKit
 class ColumnLayout : BaseLayout {
     let columns:Int
     
-    init(size: CGSize, topLeft: CGPoint, columns:Int = 4) {
+    init(size: CGSize, topLeft: CGPoint, options: NSDictionary, columns:Int = 4) {
         self.columns = columns
-        super.init(size: size, topLeft: topLeft)
+        super.init(size: size, topLeft: topLeft, options: options)
     }
 }

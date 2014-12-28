@@ -13,6 +13,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     class LevelInfo {
         let count : Int
         let layout : String
+        let layoutOptions: NSDictionary
         let mode : String
         let levelNumber: Int
         let balloonsY : CGFloat
@@ -21,7 +22,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         let touchEffect : [String:String]
         let spritesInfo : NSDictionary
         
-        init(levelNumber: Int, count:Int, layout: String, mode: String, balloonsY: CGFloat, finalEffect : String, finalEffectParams: NSDictionary, touchEffect: [String:String], spritesInfo: NSDictionary) {
+        init(levelNumber: Int, count:Int, layout: String, mode: String, balloonsY: CGFloat, finalEffect : String, finalEffectParams: NSDictionary, touchEffect: [String:String], spritesInfo: NSDictionary, layoutOptions: NSDictionary) {
             self.levelNumber = levelNumber
             self.count = count
             self.layout = layout
@@ -31,18 +32,20 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             self.finalEffectParams = finalEffectParams
             self.touchEffect = touchEffect
             self.spritesInfo = spritesInfo
+            self.layoutOptions = layoutOptions
         }
         convenience init(levelNumber: Int, levelInfo: NSDictionary) {
             let count:Int? = levelInfo.objectForKey("count") as? Int
             let layout:String? = levelInfo.objectForKey("layout") as? String
             let mode:String? = levelInfo.objectForKey("mode") as? String
-            let balloonsY:CGFloat = LevelInfo.objectForKey(levelInfo, key: "balloons.y", defaultValue: 50)
-            let finalEffect:String = LevelInfo.objectForKey(levelInfo, key: "finalEffect", defaultValue: "firstMoveAndShrink")
-            let finalEffectParams:NSDictionary = LevelInfo.objectForKey(levelInfo, key: "finalEffect.params", defaultValue: NSDictionary())
-            var touchEffect:[String:String] = LevelInfo.objectForKey(levelInfo, key: "touchEffect", defaultValue: [String:String]())
-            let spritesInfo:NSDictionary = LevelInfo.objectForKey(levelInfo, key: "sprites", defaultValue: NSDictionary())
-            
-            if(count != nil && layout != nil && mode != nil) {
+            let balloonsY:CGFloat = levelInfo.objectForKey("balloons.y", defaultValue: 50)
+            let finalEffect:String = levelInfo.objectForKey("finalEffect", defaultValue: "firstMoveAndShrink")
+            let finalEffectParams:NSDictionary = levelInfo.objectForKey("finalEffect.params", defaultValue: NSDictionary())
+            var touchEffect:[String:String] = levelInfo.objectForKey("touchEffect", defaultValue: [String:String]())
+            let spritesInfo:NSDictionary = levelInfo.objectForKey("sprites", defaultValue: NSDictionary())
+            let layoutOptions:NSDictionary = levelInfo.objectForKey("layoutOptions", defaultValue: NSDictionary())
+
+                if(count != nil && layout != nil && mode != nil) {
                 if touchEffect.indexForKey("first") == nil {
                     touchEffect["first"] = ""
                 }
@@ -50,7 +53,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                     touchEffect["second"] = ""
                 }
                 
-                self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!, balloonsY: balloonsY, finalEffect: finalEffect, finalEffectParams: finalEffectParams, touchEffect: touchEffect, spritesInfo: spritesInfo)
+                    self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!, balloonsY: balloonsY, finalEffect: finalEffect, finalEffectParams: finalEffectParams, touchEffect: touchEffect, spritesInfo: spritesInfo, layoutOptions: layoutOptions)
             } else {
                 fatalError("levelInfo invalid")
             }
@@ -58,13 +61,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         
         func getSpriteInfo(spriteName: String) -> NSDictionary? {
             return spritesInfo.objectForKey(spriteName) as? NSDictionary
-        }
-        
-        class func objectForKey<T>(dictionary: NSDictionary, key: String, defaultValue: T) -> T {
-            if let result = dictionary.objectForKey(key) as? T {
-                return result
-            }
-            return defaultValue
         }
         
         class func getLevels() -> NSDictionary {
@@ -100,6 +96,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private let back = SKSpriteNode(imageNamed: "back")
     
     private let layerGame = SKNode()
+    private let layerControls = SKNode()
 
     private let playGround : PlayGround
     
@@ -146,7 +143,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         
         self.addChild(layerBackground)
         
-        let layerControls = SKNode()
         layerControls.zPosition = 10
         layerControls.position = CGPoint(x:0,y:0)
         
@@ -188,20 +184,22 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             balloon2.removeFromParent()
         })
         layerBackground.runAction(SKAction.sequence([moveup, remove]))
-        
     }
     
     private func initGraphics()
     {
         var layout : BaseLayout
         
+        let layoutSize = CGSize(width: self.frame.width, height: self.frame.height - 60)
+        let layoutTopLeft = CGPoint(x: 0, y: 60)
+        
         switch(level.layout) {
             case "BirdsLayout":
-                layout = BirdsLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60))
+                layout = BirdsLayout(size: layoutSize, topLeft: layoutTopLeft, options: level.layoutOptions)
             case "TopBottomRowLayout":
-                layout = TopBottomRowLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60))
+                layout = TopBottomRowLayout(size: layoutSize, topLeft: layoutTopLeft, options: level.layoutOptions)
             default:
-                layout = GridLayout(size: CGSize(width: self.frame.width, height: self.frame.height - 60), topLeft: CGPoint(x: 0, y: 60))
+                layout = GridLayout(size: layoutSize, topLeft: layoutTopLeft, options: level.layoutOptions)
         }
         
         let num = level.count
@@ -209,7 +207,12 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         for(var i=1; i<=num; i++)
         {
             let firstName = "l\(level.levelNumber)c\(i)f"
-            let secondName = "l\(level.levelNumber)c\(i)s"
+            var secondName = "l\(level.levelNumber)c\(i)s"
+            
+            let numS = countImages(secondName)
+            if numS > 0 {
+                secondName = "\(secondName)-\(arc4random_uniform(numS) + 1)"
+            }
             
             let first = SKSpriteNode(imageNamed: firstName)
             let second = SKSpriteNode(imageNamed: secondName)
@@ -229,6 +232,17 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         layout.placeAll(playGround.couples, scene: layerGame)
     }
     
+    func countImages(baseName: String) -> UInt32 {
+        var i : UInt32 = 1
+        do {
+            let img : UIImage? = UIImage(named: "\(baseName)-\(i)")
+            if img == nil {
+                return i - 1
+            }
+            i++
+        }while(true)
+    }
+    
 //    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
 //        for touch: AnyObject in touches {
 //            let location = touch.locationInNode(self)
@@ -242,10 +256,21 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
 //        }
 //    }
     
+    func backToMenu() {
+        let main = MainMenuScene(size: self.frame.size)
+        self.view?.presentScene(main, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 1))
+    }
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
         
         for touch in touches {
+//            if touch.tapCount == 3 {
+//                screenShotMethod()
+//                UIAlertView(title: "Screenshot", message: "Screenshot catturato", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "OK").show()
+//                backToMenu()
+//            }
+            
             let location = touch.locationInNode(self)
             
             if let touched = self.nodeAtPoint(location) as? SKSpriteNode {
@@ -284,8 +309,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                         self.initGraphics()
                     } else if (touched == back)
                     {
-                        let main = MainMenuScene(size: self.frame.size)
-                        self.view?.presentScene(main, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 1))
+                        backToMenu()
                     }
                     return
                 }
@@ -344,4 +368,17 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
+    
+//    func screenShotMethod() {
+//        //Create the UIImage
+//        if let view = self.view {
+//            UIGraphicsBeginImageContext(view.frame.size)
+//            view.drawViewHierarchyInRect(view.frame, afterScreenUpdates: true)
+//            let image = UIGraphicsGetImageFromCurrentImageContext()
+//            UIGraphicsEndImageContext()
+//            
+//            //Save it to the camera roll
+//            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+//        }
+//    }
 }
