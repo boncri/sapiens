@@ -60,7 +60,7 @@ Esempi di layout:
     X Cigno
     X Carote
     - Ciuccio
-    - Coccinella
+    X Coccinella
     X Ciliegia
 - D
     X Dinosauro
@@ -69,45 +69,49 @@ Esempi di layout:
 - E
     X Elicottero
     X Elefante
+    X Erba
 - F
     X Farfalla
     - Fiore
     X Formaggio
-    - Fragola
+    X Fragola
     - Forbici
-    - Fungo
+    X Fungo
     X Fenicottero
 - G
     X Gatto
     X Gallo
     X Giraffa
-    - Granchio
-    - Gelato
+    X Granchio
+    X Gelato
 - I
     X Ippopotamo
     X Indiano
 - L
-    - Leone
+    X Leone
     - Limone
     - Libro
-    - Luna
-    - Lumaca
+    X Luna
+    X Lumaca
+    X Lucertola
 - M
-    - Mela
-    - Mucca
+    X Mela
+    X Mucca
     - Matita
-    - Maiale
-    - Miele
+    X Maiale
+    X Miele
 - N
-    - Nuvola
-    - Nido
+    X Nuvola
+    X Nido
     - Nave
+    X Nano
 - O
     - Oca
-    - Orca
-    - Orso
+    X Orca
+    X Orso
     - Orologio
     - Ombrello
+    X Osso
 - P
     - Pinguino
     - Pesce

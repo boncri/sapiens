@@ -45,7 +45,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             let spritesInfo:NSDictionary = levelInfo.objectForKey("sprites", defaultValue: NSDictionary())
             let layoutOptions:NSDictionary = levelInfo.objectForKey("layoutOptions", defaultValue: NSDictionary())
 
-                if(count != nil && layout != nil && mode != nil) {
+            if(count != nil && layout != nil && mode != nil) {
                 if touchEffect.indexForKey("first") == nil {
                     touchEffect["first"] = ""
                 }
@@ -53,7 +53,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                     touchEffect["second"] = ""
                 }
                 
-                    self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!, balloonsY: balloonsY, finalEffect: finalEffect, finalEffectParams: finalEffectParams, touchEffect: touchEffect, spritesInfo: spritesInfo, layoutOptions: layoutOptions)
+                self.init(levelNumber: levelNumber, count: count!, layout: layout!, mode: mode!, balloonsY: balloonsY, finalEffect: finalEffect, finalEffectParams: finalEffectParams, touchEffect: touchEffect, spritesInfo: spritesInfo, layoutOptions: layoutOptions)
             } else {
                 fatalError("levelInfo invalid")
             }

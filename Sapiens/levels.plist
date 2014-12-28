@@ -4,6 +4,22 @@
 <dict>
 	<key>levels</key>
 	<dict>
+		<key>14</key>
+		<dict>
+			<key>finalEffect</key>
+			<string>firstMoveAndShrink</string>
+			<key>count</key>
+			<integer>4</integer>
+			<key>layout</key>
+			<string>TopBottomRowLayout</string>
+			<key>layoutOptions</key>
+			<dict>
+				<key>random.1</key>
+				<false/>
+			</dict>
+			<key>mode</key>
+			<string>drag</string>
+		</dict>
 		<key>13</key>
 		<dict>
 			<key>finalEffect</key>
