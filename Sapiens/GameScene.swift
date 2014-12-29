@@ -88,6 +88,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private let cheers = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("cheer", ofType: "caf")!)
     private let wrong = NSData(contentsOfFile: NSBundle.mainBundle().pathForResource("headshake", ofType: "mp3")!)
     
+    private let bgPlayer = AVAudioPlayer(contentsOfURL: NSBundle.mainBundle().URLForResource("cool_funny_bounce_music", withExtension: "mp3"), error: nil)
     private var player = AVAudioPlayer()
     private var playerWin = AVAudioPlayer()
     private let playerWrong : AVAudioPlayer
@@ -107,6 +108,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         self.level = LevelInfo.getLevel(level)
         self.playGround = PlayGround(dragMode: self.level.mode == "drag", touchEffect: self.level.touchEffect)
         self.playerWrong = AVAudioPlayer(data: wrong, error: nil)
+        self.bgPlayer.prepareToPlay()
         
         super.init(size: size)
     }
@@ -116,6 +118,9 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     }
 
     override func didMoveToView(view: SKView) {
+        bgPlayer.numberOfLoops = -1
+        bgPlayer.play()
+        
         /* Setup your scene here */
         self.backgroundColor = UIColor(red: 60 / 256.0, green: 180 / 256.0, blue: 240 / 256.0, alpha: 1)
         
@@ -257,7 +262,9 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
 //    }
     
     func backToMenu() {
+        bgPlayer.stop()
         let main = MainMenuScene(size: self.frame.size)
+        main.scaleMode = self.scaleMode
         self.view?.presentScene(main, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 1))
     }
     

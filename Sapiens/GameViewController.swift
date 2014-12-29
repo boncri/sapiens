@@ -28,11 +28,14 @@ extension SKNode {
 class GameViewController: UIViewController {
 
     override func viewDidLoad() {
+        let sceneSize = CGSize(width: 1024.0, height: 768.0)
+        
         super.viewDidLoad()
 
 //        if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
 //        let scene = GameScene(size: self.view.frame.size, level: 1)
-        let scene = MainMenuScene(size: self.view.frame.size)
+//        let scene = MainMenuScene(size: self.view.frame.size)
+        let scene = MainMenuScene(size: sceneSize)
             // Configure the view.
             let skView = self.view as SKView
             skView.showsFPS = false
@@ -42,7 +45,7 @@ class GameViewController: UIViewController {
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .AspectFit
             
             skView.presentScene(scene)
 //        }

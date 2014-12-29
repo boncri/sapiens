@@ -8,15 +8,19 @@
 
 import Foundation
 import SpriteKit
+import AVFoundation
 
 class MainMenuScene : SKScene {
+    let player = AVAudioPlayer(contentsOfURL: NSBundle.mainBundle().URLForResource("xylophone_open", withExtension: "mp3"), error: nil)
 
-    override func didMoveToView(view: SKView) {        
+    override func didMoveToView(view: SKView) {
         let width = self.frame.width / 4
         let height = self.frame.height / 4
         
         let levels = GameScene.LevelInfo.getLevels()
         
+        player.play()
+
         for l in levels.allKeys {
             if let n = (l as String).toInt() {
                 let x = width / 2 + CGFloat((n - 1) % 4) * width
@@ -29,7 +33,7 @@ class MainMenuScene : SKScene {
                 
                 self.addChild(button)
                 
-                button.runAction(SKAction.sequence([SKAction.waitForDuration(0.2 * Double(n)), SKAction.scaleTo(1, duration: 0.25)]))
+                button.runAction(SKAction.sequence([SKAction.waitForDuration(0.2 * Double(n)), SKAction.scaleTo(1, duration: 0.2)]))
             }
         }
     }
@@ -47,6 +51,7 @@ class MainMenuScene : SKScene {
             var level = touched!.level
                         
             let game = GameScene(size: self.frame.size, level: level)
+            game.scaleMode = self.scaleMode
             
             let transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1)
             
