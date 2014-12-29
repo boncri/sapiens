@@ -97,7 +97,7 @@ Esempi di layout:
 - M
     X Mela
     X Mucca
-    - Matita
+    X Matita
     X Maiale
     X Miele
 - N
@@ -113,23 +113,26 @@ Esempi di layout:
     - Ombrello
     X Osso
 - P
-    - Pinguino
-    - Pesce
-    - Pecora
-    - Palla
-    - Palloncino
+    X Pinguino
+    X Pesce
+    X Pecora
+    X Palla
+    X Palloncino
     - Pulcino
 - Q
     - Quadro
-    - Quaderno
+    X Quaderno
     - Quadrato
 - R
-    - Rana
+    X Robot
+    X Riccio
+    X Rana
     - Ragno
     - Rinoceronte
 - S
-    - Sole
-    - Stella
+    X Scimmia
+    X Sole
+    X Stella
     - Scivolo
     - Sedia
     - Serpente
