@@ -110,7 +110,7 @@ Esempi di layout:
     X Orca
     X Orso
     - Orologio
-    - Ombrello
+    X Ombrellone
     X Osso
 - P
     X Pinguino
@@ -122,7 +122,7 @@ Esempi di layout:
 - Q
     - Quadro
     X Quaderno
-    - Quadrato
+    X Quadrato
 - R
     X Robot
     X Riccio
@@ -140,18 +140,19 @@ Esempi di layout:
     - Tavolo
     - Telefono
     - Televisore
-    - Tigre
-    - Topo
-    - tartaruga
+    X Tigre
+    X Topo
+    X Tartaruga
 - U
     - Uovo
-    - Uva
-    - Uccello
+    X Uva
+    X Uccello
 - V
     - Vaso
-    - Volpe
+    X Volpe
+    X Valigia
 - Z
-    - Zucca
-    - Zebra
+    X Zucca
+    X Zebra
     - Zaino
     - Zanzara

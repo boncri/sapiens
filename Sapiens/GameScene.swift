@@ -161,7 +161,8 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
 
         self.addChild(layerControls)
         
-        initGraphics()
+        let layout = initGraphics()
+        
         layerGame.zPosition = 100
         layerBackground.addChild(layerGame)
         
@@ -188,11 +189,15 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             balloon1.removeFromParent()
             balloon2.removeFromParent()
         })
-        layerBackground.runAction(SKAction.sequence([moveup, remove]))
+        
+        let commitLayout = SKAction.runBlock({
+            layout.commitLayout()
+        })
+        
+        layerBackground.runAction(SKAction.sequence([moveup, remove, commitLayout]))
     }
     
-    private func initGraphics()
-    {
+    private func initGraphics() -> BaseLayout {
         var layout : BaseLayout
         
         let layoutSize = CGSize(width: self.frame.width, height: self.frame.height - 60)
@@ -235,6 +240,8 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         }
         
         layout.placeAll(playGround.couples, scene: layerGame)
+        
+        return layout
     }
     
     func countImages(baseName: String) -> UInt32 {

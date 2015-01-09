@@ -54,8 +54,8 @@ class TopBottomRowLayout : BaseLayout {
             f.zPosition = 2
             s.zPosition = 1
 
-            scene.addChild(f)
-            scene.addChild(s)
+            placeNode(scene, node: f)
+            placeNode(scene, node: s)
         }
     }
 }

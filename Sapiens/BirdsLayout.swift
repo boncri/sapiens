@@ -51,8 +51,8 @@ class BirdsLayout : BaseLayout {
             couple.first[0].sprite.zPosition = 2
             couple.second.sprite.zPosition = 1
             
-            scene.addChild(couple.first[0].sprite)
-            scene.addChild(couple.second.sprite)
+            placeNode(scene, node: couple.first[0].sprite)
+            placeNode(scene, node: couple.second.sprite)
         }
     }
 }
